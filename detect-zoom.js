@@ -7,6 +7,7 @@ var DetectZoom = {
     var head = document.getElementsByTagName('head')[0];
     var style = document.createElement('style');
     var div = document.createElement('div');
+    div.className = 'mediaQueryBinarySearch';
     head.appendChild(style);
     div.style.display = 'none';
     document.body.appendChild(div);
@@ -26,7 +27,7 @@ var DetectZoom = {
     }
     function mediaQueryMatches(r) {
       style.sheet.insertRule('@media (' + property + ':' + r +
-                             ') {#dummyElement ' +
+                             ') {.mediaQueryBinarySearch ' +
                              '{text-decoration: underline} }', 0);
       var matched = getComputedStyle(div, null).textDecoration
           == 'underline';
@@ -126,7 +127,7 @@ var DetectZoom = {
     return {zoom: z, devicePxPerCssPx: z};
   },
   ratios: function() {
-    var r, z;
+    var r;
     if (screen.logicalXDPI != null && ! isNaN(screen.logicalXDPI)) {
       return this._zoomIe8();
     } else if ('ontouchstart' in window && document.body.style.webkitTextSizeAdjust != null) {
@@ -135,14 +136,14 @@ var DetectZoom = {
       return this._zoomWebkit();
     } else if (-1 != navigator.userAgent.indexOf('Firefox/3.5')) {
       return this._zoomFF35();
-    } else if (-1 != navigator.userAgent.indexOf('Firefox/4')) {
-      return this._zoomFF4();
     } else if (-1 != navigator.userAgent.indexOf('Firefox/3.6')) {
       return this._zoomFF36();
     } else if (-1 != navigator.appVersion.indexOf("MSIE 7.")) {
       return this._zoomIe7();
     } else if (-1 != navigator.userAgent.indexOf('Opera')) {
       return this._zoomOpera();
+    } else if (0.001 < (r = this._zoomFF4()).zoom) {
+      return r;
     } else {
       return {zoom: 1, devicePxPerCssPx: 1}
     }
