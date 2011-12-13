@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<div id=zoom-level></div>
+<button onclick="onresize()">Recalculate</button><br>
+<a href="https://github.com/yonran/detect-zoom/">Source</a>
+<script src=detect-zoom.js></script>
+<script>
+
+onresize = function() {
+  var r = DetectZoom.ratios();
+  document.getElementById('zoom-level').innerHTML =
+    "Zoom level: " + r.zoom +
+    (r.zoom !== r.devicePxPerCssPx
+        ? "; device to CSS pixel ratio: " + r.devicePxPerCssPx
+        : "");
+}
+onresize();
+
+if ('ontouchstart' in window)
+  onscroll = onresize;
+
+</script>
+
