@@ -128,7 +128,7 @@ var DetectZoom = {
   },
   ratios: function() {
     var r;
-    if (screen.logicalXDPI != null && ! isNaN(screen.logicalXDPI)) {
+    if (screen.logicalXDPI != null && ! isNaN(screen.logicalXDPI) && ! isNaN(screen.systemXDPI) ) {
       return this._zoomIe8();
     } else if ('ontouchstart' in window && document.body.style.webkitTextSizeAdjust != null) {
       return this._zoomWebkitMobile();
