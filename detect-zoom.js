@@ -36,30 +36,46 @@ var DetectZoom = {
     }
   },
   _zoomIe7: function() {
+    // the trick: body's offsetWidth was in CSS pixels, while
+    // getBoundingClientRect() was in system pixels in IE7.
+    // Thanks to http://help.dottoro.com/ljgshbne.php
     var rect = document.body.getBoundingClientRect();
     var z = (rect.right-rect.left)/document.body.offsetWidth;
     z = Math.round(z * 100) / 100;
     return {zoom: z, devicePxPerCssPx: z};
   },
   _zoomIe8: function() {
-    // IE 8
+    // IE 8+: no trick needed!
+    // TODO: MSDN says that logicalXDPI and deviceXDPI existed since IE6
+    // (which didn't even have whole-page zoom). Check to see whether
+    // this method would also work in IE7.
     return {
       zoom: screen.systemXDPI / screen.logicalXDPI,
       devicePxPerCssPx: screen.deviceXDPI / screen.logicalXDPI
     };
   },
   _zoomWebkitMobile: function() {
-    // Webkit, on mobile browser
+    // the trick: window.innerWIdth is in CSS pixels, while
+    // documentElement.clientWidth is in system pixels.
+    // And there are no scrollbars to mess up the measurement.
     var z = document.documentElement.clientWidth / window.innerWidth;
     var devicePixelRatio = window.devicePixelRatio != null ? window.devicePixelRatio : 1;
     // return immediately; don't round at the end.
     return {zoom: z, devicePxPerCssPx: z*devicePixelRatio};
   },
   _zoomWebkit: function() {
-    // WebKit
-
+    // the trick: an element's clientHeight is in CSS pixels, while you can
+    // set its line-height in system pixels using font-size and
+    // -webkit-text-size-adjust:none.
     // device-pixel-ratio: http://www.webkit.org/blog/55/high-dpi-web-sites/
-    // Note: Webkit before http://trac.webkit.org/changeset/100847 had document.width but it's gone now!
+
+    // Previous trick (used before http://trac.webkit.org/changeset/100847):
+    // documentElement.scrollWidth is in CSS pixels, while
+    // document.width was in system pixels. Note that this is the
+    // layout width of the document, which is slightly different from viewport
+    // because document width does not include scrollbars and might be wider
+    // due to big elements.
+
     var devicePixelRatio = window.devicePixelRatio != null ? window.devicePixelRatio : 1;
 
     var container = document.createElement('div')
@@ -83,13 +99,18 @@ var DetectZoom = {
     return r;
   },
   _zoomFF35: function() {
-    // FF3.5 ONLY: screen.width was in device pixels.
+    // the trick for FF3.5 ONLY: device-width gives CSS pixels, while
+    // screen.width gave system pixels. Thanks to QuirksMode's widths table,
+    // which called it a bug. http://www.quirksmode.org/m/widths.html
     var z = screen.width /
       this.mediaQueryBinarySearch('min-device-width', 'px', 0, 6000, 20, .0001);
     z = Math.round(z * 100) / 100;
     return {zoom: z, devicePxPerCssPx: z};
   },
   _zoomFF36: function() {
+    // the hack for FF3.6: you can measure scrollbar's width in CSS pixels,
+    // while in system pixels it's 15px (verified in Ubuntu).
+
     // TODO: verify for every platform that a scrollbar is exactly 15px wide.
     var container = document.createElement('div')
       , outerDiv = document.createElement('div');
@@ -117,7 +138,10 @@ var DetectZoom = {
     return {zoom: z, devicePxPerCssPx: z};
   },
   _zoomFF4: function() {
-    // TODO: use mozmm vs. mm
+    // no real trick; device-pixel-ratio is the ratio of device dpi / css dpi.
+    // (Note that this is a different interpretation than Webkit's device
+    // pixel ratio, which is the ratio device dpi / system dpi).
+    // TODO: is mozmm vs. mm promising?
     var z = this.mediaQueryBinarySearch(
             'min--moz-device-pixel-ratio',
             '', 0, 10, 20, .0001);
@@ -125,9 +149,13 @@ var DetectZoom = {
     return {zoom: z, devicePxPerCssPx: z};
   },
   _zoomOpera: function() {
-    // technique from:
+    // the trick: a div with position:fixed;width:100%'s offsetWidth is the
+    // viewport width in CSS pixels, while window.innerWidth was in system
+    // pixels. Thanks to:
     // http://virtuelvis.com/2005/05/how-to-detect-zoom-level-in-opera/
-    // It failed sometime in 2011; now window.innerWidth is in CSS pixels.
+    //
+    // Unfortunately, this failed sometime in 2011; newer Opera always returns 1.
+    // TODO: find a trick for new Opera versions.
     var fixedDiv = document.createElement('div');
     fixedDiv.style.position = 'fixed';
     fixedDiv.style.border = '5px solid blue';
@@ -143,7 +171,7 @@ var DetectZoom = {
   },
   ratios: function() {
     var r;
-    if (screen.logicalXDPI != null && ! isNaN(screen.logicalXDPI) && ! isNaN(screen.systemXDPI) ) {
+    if (! isNaN(screen.logicalXDPI) && ! isNaN(screen.systemXDPI) ) {
       return this._zoomIe8();
     } else if ('ontouchstart' in window && document.body.style.webkitTextSizeAdjust != null) {
       return this._zoomWebkitMobile();
