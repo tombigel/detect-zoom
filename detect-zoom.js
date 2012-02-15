@@ -62,20 +62,24 @@ var DetectZoom = {
     // Note: Webkit before http://trac.webkit.org/changeset/100847 had document.width but it's gone now!
     var devicePixelRatio = window.devicePixelRatio != null ? window.devicePixelRatio : 1;
 
-    var div = document.createElement('div');
+    var container = document.createElement('div')
+      , div = document.createElement('div');
+    // The container exists so that the div will be laid out in its own flow
+    // while not impacting the layout, viewport size, or display of the
+    // webpage as a whole.
+    container.setAttribute('style', 'width:0; height:0; overflow:hidden;' +
+        'visibility:hidden; position: absolute');
     div.innerHTML = "one<br>two<br>three<br>four<br>five<br>six<br>seven<br>eight<br>nine<br>ten";
-    div.setAttribute('style',
-      "font: 100px/1em sans-serif; -webkit-text-size-adjust:none;" +
-      "visibility:hidden; position:absolute;"
-    );
-    document.body.appendChild(div);
+    div.setAttribute('style', "font: 100px/1em sans-serif; -webkit-text-size-adjust:none;");
+    container.appendChild(div);
+    document.body.appendChild(container);
     var z = 1000 / div.clientHeight;
     z = Math.round(z * 100) / 100;
     var r = {
       zoom: z,
       devicePxPerCssPx: devicePixelRatio * z
     };
-    document.body.removeChild(div);
+    document.body.removeChild(container);
     return r;
   },
   _zoomFF35: function() {
@@ -87,7 +91,13 @@ var DetectZoom = {
   },
   _zoomFF36: function() {
     // TODO: verify for every platform that a scrollbar is exactly 15px wide.
-    var outerDiv = document.createElement('div');
+    var container = document.createElement('div')
+      , outerDiv = document.createElement('div');
+    // The container exists so that the div will be laid out in its own flow
+    // while not impacting the layout, viewport size, or display of the
+    // webpage as a whole.
+    container.setAttribute('style', 'width:0; height:0; overflow:hidden;' +
+        'visibility:hidden; position: absolute');
     outerDiv.style.width = outerDiv.style.height = '500px';  // enough for all the scrollbars
     var div = outerDiv;
     for (var i = 0; i < 10; ++i) {
@@ -96,11 +106,12 @@ var DetectZoom = {
       div.appendChild(child);
       div = child;
     }
-    document.body.appendChild(outerDiv);
+    container.appendChild(outerDiv);
+    document.body.appendChild(container);
     var outerDivWidth = outerDiv.clientWidth;
     var innerDivWidth = div.clientWidth;
     var scrollbarWidthCss = (outerDivWidth - innerDivWidth)/10;
-    document.body.removeChild(outerDiv);
+    document.body.removeChild(container);
     var z = 15 / scrollbarWidthCss;  // scrollbars are 15px always?
     z = Math.round(z * 100) / 100;
     return {zoom: z, devicePxPerCssPx: z};
@@ -114,12 +125,16 @@ var DetectZoom = {
     return {zoom: z, devicePxPerCssPx: z};
   },
   _zoomOpera: function() {
+    // technique from:
+    // http://virtuelvis.com/2005/05/how-to-detect-zoom-level-in-opera/
+    // It failed sometime in 2011; now window.innerWidth is in CSS pixels.
     var fixedDiv = document.createElement('div');
     fixedDiv.style.position = 'fixed';
     fixedDiv.style.border = '5px solid blue';
     fixedDiv.style.width = '100%';
     fixedDiv.style.height = '100%';
     fixedDiv.style.top = fixedDiv.style.left = '0';
+    fixedDiv.style.visibility = 'hidden';
     document.body.appendChild(fixedDiv);
     var z = window.innerWidth / fixedDiv.offsetWidth;
     z = Math.round(z * 100) / 100;
