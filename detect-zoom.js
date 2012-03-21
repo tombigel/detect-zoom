@@ -78,15 +78,20 @@ var DetectZoom = {
 
     var devicePixelRatio = window.devicePixelRatio != null ? window.devicePixelRatio : 1;
 
-    var container = document.createElement('div')
-      , div = document.createElement('div');
     // The container exists so that the div will be laid out in its own flow
     // while not impacting the layout, viewport size, or display of the
     // webpage as a whole.
-    container.setAttribute('style', 'width:0; height:0; overflow:hidden;' +
-        'visibility:hidden; position: absolute');
-    div.innerHTML = "one<br>two<br>three<br>four<br>five<br>six<br>seven<br>eight<br>nine<br>ten";
-    div.setAttribute('style', "font: 100px/1em sans-serif; -webkit-text-size-adjust:none;");
+    var container = document.createElement('div')
+      , div = document.createElement('div');
+    
+    // Add !important and relevant CSS rule resets
+    // so that other rules cannot affect the results.
+    var important = function(str){ return str.replace(/;/g, " !important;"); };
+    
+    container.setAttribute('style', important('width:0; height:0; overflow:hidden; visibility:hidden; position: absolute;'));
+    div.innerHTML = "1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0";
+    div.setAttribute('style', important('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
+    
     container.appendChild(div);
     document.body.appendChild(container);
     var z = 1000 / div.clientHeight;
