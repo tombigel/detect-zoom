@@ -138,7 +138,11 @@ var DetectZoom = {
     var innerDivWidth = div.clientWidth;
     var scrollbarWidthCss = (outerDivWidth - innerDivWidth)/10;
     document.body.removeChild(container);
-    var z = 15 / scrollbarWidthCss;  // scrollbars are 15px always?
+    var scrollbarWidthDevice = 15;  // Mac and Linux: scrollbars are 15px wide
+    if (-1 != navigator.platform.indexOf('Win')){
+      scrollbarWidthDevice = 17;
+    }
+    var z = scrollbarWidthDevice / scrollbarWidthCss;
     z = Math.round(z * 100) / 100;
     return {zoom: z, devicePxPerCssPx: z};
   },
