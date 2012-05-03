@@ -201,5 +201,15 @@ var DetectZoom = {
   },
   device: function() {
     return this.ratios().devicePxPerCssPx;
+  },
+  isZoomed: function() {
+      var r = this.ratios();
+      if (r.zoom !== 1) {
+          return true;
+      }
+      if (r.zoom !== r.devicePxPerCssPx) {
+          return true;
+      }
+      return false;
   }
 };
