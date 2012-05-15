@@ -153,25 +153,33 @@ var DetectZoom = {
     z = Math.round(z * 100) / 100;
     return {zoom: z, devicePxPerCssPx: z};
   },
-  _zoomOpera: function() {
+  _zoomOperaOlder: function() {
+    // 10.00 (or before) to 11.01:
     // the trick: a div with position:fixed;width:100%'s offsetWidth is the
     // viewport width in CSS pixels, while window.innerWidth was in system
     // pixels. Thanks to:
     // http://virtuelvis.com/2005/05/how-to-detect-zoom-level-in-opera/
-    //
-    // Unfortunately, this failed sometime in 2011; newer Opera always returns 1.
-    // TODO: find a trick for new Opera versions.
+    // TODO: fix bug: when there is a scrollbar, fixed div does NOT
+    // include the scrollbar, while window.outerWidth DOES. This causes the
+    // calculation to be off by a few percent.
     var fixedDiv = document.createElement('div');
     fixedDiv.style.position = 'fixed';
-    fixedDiv.style.border = '5px solid blue';
     fixedDiv.style.width = '100%';
     fixedDiv.style.height = '100%';
     fixedDiv.style.top = fixedDiv.style.left = '0';
     fixedDiv.style.visibility = 'hidden';
     document.body.appendChild(fixedDiv);
     var z = window.innerWidth / fixedDiv.offsetWidth;
-    z = Math.round(z * 100) / 100;
     document.body.removeChild(fixedDiv);
+    return {zoom: z, devicePxPerCssPx: z};
+  },
+  _zoomOpera11: function() {
+    // works starting Opera 11.11
+    // the trick: outerWidth is the viewport width including scrollbars in
+    // system px, while innerWidth is the viewport width including scrollbars
+    // in CSS px; 
+    var z = window.outerWidth / window.innerWidth;
+    z = Math.round(z * 100) / 100;
     return {zoom: z, devicePxPerCssPx: z};
   },
   ratios: function() {
@@ -189,7 +197,11 @@ var DetectZoom = {
     } else if (-1 != navigator.appVersion.indexOf("MSIE 7.")) {
       return this._zoomIe7();
     } else if (-1 != navigator.userAgent.indexOf('Opera')) {
-      return this._zoomOpera();
+      var versionIdx = navigator.userAgent.indexOf('Version/');
+      if (11.01 < parseFloat(navigator.userAgent.substr(versionIdx + 8)))
+        return this._zoomOpera11();
+      else
+        return this._zoomOperaOlder();
     } else if (0.001 < (r = this._zoomFF4()).zoom) {
       return r;
     } else {
