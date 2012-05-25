@@ -138,7 +138,11 @@ var DetectZoom = {
     var innerDivWidth = div.clientWidth;
     var scrollbarWidthCss = (outerDivWidth - innerDivWidth)/10;
     document.body.removeChild(container);
-    var z = 15 / scrollbarWidthCss;  // scrollbars are 15px always?
+    var scrollbarWitdth = 15;
+    if (-1 != navigator.platform.indexOf('Win')){
+      scrollbarWitdth = 17;
+    }
+    var z = scrollbarWitdth / scrollbarWidthCss;  // scrollbars are 15px always?
     z = Math.round(z * 100) / 100;
     return {zoom: z, devicePxPerCssPx: z};
   },
@@ -213,5 +217,15 @@ var DetectZoom = {
   },
   device: function() {
     return this.ratios().devicePxPerCssPx;
+  },
+  isZoomed: function() {
+      var r = this.ratios();
+      if (r.zoom !== 1) {
+          return true;
+      }
+      if (r.zoom !== r.devicePxPerCssPx) {
+          return true;
+      }
+      return false;
   }
 };
