@@ -4,35 +4,44 @@
 var DetectZoom = {
   mediaQueryBinarySearch: function(
       property, unit, a, b, maxIter, epsilon) {
-    var head = document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
-    var div = document.createElement('div');
-    div.className = 'mediaQueryBinarySearch';
-    head.appendChild(style);
-    div.style.display = 'none';
-    document.body.appendChild(div);
+    var matchMedia;
+    var head, style, div
+    if (window.matchMedia) {
+      matchMedia = window.matchMedia;
+    } else {
+      head = document.getElementsByTagName('head')[0];
+      style = document.createElement('style');
+      div = document.createElement('div');
+      div.className = 'mediaQueryBinarySearch';
+      head.appendChild(style);
+      div.style.display = 'none';
+      document.body.appendChild(div);
+      matchMedia = function(query) {
+        style.sheet.insertRule('@media ' + query +
+                               '{.mediaQueryBinarySearch ' +
+                               '{text-decoration: underline} }', 0);
+        var matched = getComputedStyle(div, null).textDecoration
+            == 'underline';
+        style.sheet.deleteRule(0);
+        return {matches:matched};
+      }
+    }
     var r = binarySearch(a, b, maxIter);
-    head.removeChild(style);
-    document.body.removeChild(div);
+    if (div) {
+      head.removeChild(style);
+      document.body.removeChild(div);
+    }
     return r;
 
     function binarySearch(a, b, maxIter) {
       var mid = (a + b)/2;
       if (maxIter == 0 || b - a < epsilon) return mid;
-      if (mediaQueryMatches(mid + unit)) {
+      var query = "(" + property + ":" + mid + unit + ")";
+      if (matchMedia(query).matches) {
         return binarySearch(mid, b, maxIter-1);
       } else {
         return binarySearch(a, mid, maxIter-1);
       }
-    }
-    function mediaQueryMatches(r) {
-      style.sheet.insertRule('@media (' + property + ':' + r +
-                             ') {.mediaQueryBinarySearch ' +
-                             '{text-decoration: underline} }', 0);
-      var matched = getComputedStyle(div, null).textDecoration
-          == 'underline';
-      style.sheet.deleteRule(0);
-      return matched;
     }
   },
   _zoomIe7: function() {

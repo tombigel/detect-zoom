@@ -33,7 +33,10 @@ body {
 -->
 <body>
 <table id=units>
-<tr><th colspan=3>“Layout viewport” width: how big is a width:100% element?
+
+<tr><td><td>// <a data-toggle=collapse data-target="#startTime" href onclick="return false">start timer</a>
+<div class=collapse id=startTime>void(window.startTime = +new Date)
+</div><tr><th colspan=3>“Layout viewport” width: how big is a width:100% element?
 <tr><td><td>jQuery(window).width()
 <tr><td><td>document.documentElement.clientWidth
 <tr><td><td>document.body.clientWidth
@@ -76,13 +79,16 @@ return scrollbarWidthCss;
 <tr><td><td>// <a data-toggle=collapse data-target="#min--moz-device-pixel-ratio" href onclick="return false">measure @media(min--moz-device-pixel-ratio)</a>
 <div class=collapse id=min--moz-device-pixel-ratio>DetectZoom.mediaQueryBinarySearch("min--moz-device-pixel-ratio", "", 0, 10, 20, .0001)
 </div><tr><td><td>DetectZoom.ratios().zoom
-</table>
+<tr><td><td>// <a data-toggle=collapse data-target="#endTime" href onclick="return false">time to calculate</a>
+<div class=collapse id=endTime>+new Date - window.startTime
+</div></table>
 
 <div id=verticalStrut   style="position:absolute; top:0; left:0; height:150%; width:1px; visibility:hidden; display:none"></div>
 <div id=horizontalStrut style="position:absolute; top:0; left:0; width:150%; height:1px; visibility:hidden; display:none"></div>
 <div id=staticDiv style="background:lightgreen;height:2em;text-align:right;margin:0;padding:0;border:0;">staticDiv: just a div</div>
 <div id=static100Div style="background:lightgray;width:100%;height:2em;text-align:right;margin:0;padding:0;border:0">static100Div: div with width:100%</div>
 <div id=fixedDiv style="position:fixed;left:0;bottom:1em;background:gold;height:2em;width:100%;text-align:right;margin:0;padding:0;border:0">fixedDiv: div with position:fixed;width:100%</div>
+<button onclick="onresize()">Recalculate</button>
 <script src="../detect-zoom.js"></script>
 <script src=jquery-1.7.2.js></script>
 
