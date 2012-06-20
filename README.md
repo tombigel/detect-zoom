@@ -17,3 +17,7 @@ Usage:
 [Demo](http://yonran.github.com/detect-zoom/test-page.html)
 
 [Dimensions test](http://yonran.github.com/detect-zoom/tools/dimensions.html)
+
+License
+------
+Detect-zoom is dual-licensed under the WTFPL and MIT license, at the recipient's choice.

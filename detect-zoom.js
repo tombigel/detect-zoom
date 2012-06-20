@@ -1,6 +1,6 @@
-// BSD.
+// detect-zoom is dual-licensed under the WTFPL and MIT license,
+// at the recipient's choice.
 // https://github.com/yonran/detect-zoom/
-
 var DetectZoom = {
   mediaQueryBinarySearch: function(
       property, unit, a, b, maxIter, epsilon) {
