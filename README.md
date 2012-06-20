@@ -15,3 +15,5 @@ Usage:
     </script>
 
 [Demo](http://yonran.github.com/detect-zoom/test-page.html)
+
+[Dimensions test](http://yonran.github.com/detect-zoom/tools/dimensions.html)
