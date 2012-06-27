@@ -65,10 +65,16 @@ var DetectZoom = {
   },
   _zoomWebkitMobile: function() {
     // the trick: window.innerWIdth is in CSS pixels, while
-    // documentElement.clientWidth is in system pixels.
+    // screen.width and screen.height are in system pixels.
     // And there are no scrollbars to mess up the measurement.
-    var z = document.documentElement.clientWidth / window.innerWidth;
-    var devicePixelRatio = window.devicePixelRatio != null ? window.devicePixelRatio : 1;
+    var devicePixelRatio = window.devicePixelRatio != null ? window.devicePixelRatio : 1
+      , deviceWidth;
+    if ( Math.abs(window.orientation) == 90 ) {
+      deviceWidth = screen.height;
+    } else {
+      deviceWidth = screen.width;
+    }
+    var z = deviceWidth / window.innerWidth;
     // return immediately; don't round at the end.
     return {zoom: z, devicePxPerCssPx: z*devicePixelRatio};
   },
