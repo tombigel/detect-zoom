@@ -58,9 +58,10 @@ var DetectZoom = {
     // TODO: MSDN says that logicalXDPI and deviceXDPI existed since IE6
     // (which didn't even have whole-page zoom). Check to see whether
     // this method would also work in IE7.
+    var zoom = screen.deviceXDPI / screen.logicalXDPI;
     return {
-      zoom: screen.systemXDPI / screen.logicalXDPI,
-      devicePxPerCssPx: screen.deviceXDPI / screen.logicalXDPI
+      zoom: zoom,
+      devicePxPerCssPx: zoom
     };
   },
   _zoomWebkitMobile: function() {
