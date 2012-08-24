@@ -5,8 +5,8 @@ Detect the zoom level of the user's browser using Javascript. This can be used t
 
 It may not be complete; I need help testing different browsers. Patches welcome.
 
-Usage:
-
+Usage
+------
     <script src=detect-zoom.js></script>
     <script>
       var zoom = DetectZoom.zoom();
@@ -14,9 +14,15 @@ Usage:
       console.log(zoom);
     </script>
 
+Examples
+------
 [Demo](http://yonran.github.com/detect-zoom/test-page.html)
 
 [Dimensions test](http://yonran.github.com/detect-zoom/tools/dimensions.html)
+
+In the Wild
+------
+[TouchView](http://appliedis.github.com/touchview/)
 
 License
 ------
