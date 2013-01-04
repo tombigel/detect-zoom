@@ -222,7 +222,7 @@ var DetectZoom = {
         return this._zoomOpera11();
       else
         return this._zoomOperaOlder();
-    } else if (0.001 < (r = this._zoomFF4()).zoom) {
+    } else if (-1 != navigator.userAgent.indexOf('Firefox/4') && 0.001 < (r = this._zoomFF4()).zoom) {
       return r;
     } else {
       return {zoom: 1, devicePxPerCssPx: 1}
