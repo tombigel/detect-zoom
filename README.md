@@ -1,12 +1,14 @@
 Javascript Zoom Detector
 ======
-**Forked from https://github.com/yonran/detect-zoom
+**Forked from https://github.com/yonran/detect-zoom**
+
+_I removed support for old browsers and cleaned up the original code into a module patern._
+_Supports: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+_
 
 Detect the zoom level of the user's browser using Javascript. This can be used to show higher-resolution `canvas` or `img` when necessary.
 
 It may not be complete; I need help testing different browsers. Patches welcome.
 
-I removed support for old browsers and cleaned up the original code.
 
 Usage
 ------
