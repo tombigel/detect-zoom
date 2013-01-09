@@ -11,13 +11,12 @@
 'use scrict';
 var zoomLevel = document.getElementById('zoom-level');
 window.onresize = function onresize() {
-  var r = DetectZoom.ratios();
   zoomLevel.innerHTML =
-    "Zoom level: " + r.zoom +
-    (r.zoom !== r.devicePxPerCssPx
-        ? "; device to CSS pixel ratio: " + r.devicePxPerCssPx
-        : "");
-}
+    "Zoom level: " + DetectZoom.zoom() +
+    "<br>" +
+    "Device to CSS pixel ratio: " + DetectZoom.device();
+};
+
 onresize();
 
 if ('ontouchstart' in window) {
