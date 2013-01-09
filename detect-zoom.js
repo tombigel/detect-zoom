@@ -2,6 +2,23 @@
 // at the recipient's choice.
 // https://github.com/yonran/detect-zoom/
 var DetectZoom = (function(){
+
+    /**
+     * If supported in browser use devicePixelRatio
+     * @type {Number}
+     */
+    var devicePixelRatio = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
+
+    /**
+     * Use a binary search through media queries to find zoom level in Firefox
+     * @param property
+     * @param unit
+     * @param a
+     * @param b
+     * @param maxIter
+     * @param epsilon
+     * @return {Number}
+     */
     var mediaQueryBinarySearch = function(property, unit, a, b, maxIter, epsilon){
         var matchMedia;
         var head, style, div;
@@ -24,12 +41,12 @@ var DetectZoom = (function(){
                 return {matches: matched};
             };
         }
-        var r = binarySearch(a, b, maxIter);
+        var ratio = binarySearch(a, b, maxIter);
         if (div){
             head.removeChild(style);
             document.body.removeChild(div);
         }
-        return r;
+        return ratio;
 
         function binarySearch(a, b, maxIter){
             var mid = (a + b) / 2;
@@ -68,7 +85,6 @@ var DetectZoom = (function(){
      * @private
      */
     var webkitMobile = function(){
-        var devicePixelRatio = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
         var deviceWidth = (Math.abs(window.orientation) == 90) ? screen.height : screen.width;
         var z = deviceWidth / window.innerWidth;
         // return immediately; don't round at the end.
@@ -94,7 +110,7 @@ var DetectZoom = (function(){
      * @private
      */
     var webkit = function(){
-        var devicePixelRatio = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
+
 
         var important = function(str){
             return str.replace(/;/g, " !important;");
@@ -120,7 +136,7 @@ var DetectZoom = (function(){
 
         return{
             zoom            : z,
-            devicePxPerCssPx: devicePixelRatio * z
+            devicePxPerCssPx: z * devicePixelRatio
         };
     };
 
@@ -137,7 +153,7 @@ var DetectZoom = (function(){
         z = Math.round(z * 100) / 100;
         return {
             zoom            : z,
-            devicePxPerCssPx: z
+            devicePxPerCssPx: z * devicePixelRatio
         };
     };
 
@@ -154,7 +170,7 @@ var DetectZoom = (function(){
         z = Math.round(z * 100) / 100;
         return {
             zoom            : z,
-            devicePxPerCssPx: z
+            devicePxPerCssPx: z * devicePixelRatio
         };
     };
 
