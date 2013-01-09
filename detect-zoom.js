@@ -4,10 +4,13 @@
 var DetectZoom = (function(){
 
     /**
-     * If supported in browser use devicePixelRatio
-     * @type {Number}
+     * Use devicePixelRatio if supported by the browser
+     * @return {Number}
      */
-    var devicePixelRatio = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
+    var devicePixelRatio = function(){
+        return (window.devicePixelRatio) ? window.devicePixelRatio : 1;
+    };
+
 
     /**
      * Use a binary search through media queries to find zoom level in Firefox
@@ -90,7 +93,7 @@ var DetectZoom = (function(){
         // return immediately; don't round at the end.
         return {
             zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio
+            devicePxPerCssPx: z * devicePixelRatio()
         };
     };
 
@@ -136,7 +139,7 @@ var DetectZoom = (function(){
 
         return{
             zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio
+            devicePxPerCssPx: z * devicePixelRatio()
         };
     };
 
@@ -153,7 +156,7 @@ var DetectZoom = (function(){
         z = Math.round(z * 100) / 100;
         return {
             zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio
+            devicePxPerCssPx: z * devicePixelRatio()
         };
     };
 
@@ -170,7 +173,7 @@ var DetectZoom = (function(){
         z = Math.round(z * 100) / 100;
         return {
             zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio
+            devicePxPerCssPx: z * devicePixelRatio()
         };
     };
 
