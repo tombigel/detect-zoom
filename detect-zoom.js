@@ -1,8 +1,22 @@
 // detect-zoom is dual-licensed under the WTFPL and MIT license,
 // at the recipient's choice.
-// https://github.com/yonran/detect-zoom/
-var DetectZoom = (function(){
+// Original:   https://github.com/yonran/detect-zoom/
 
+//AMD and CommonJS initialization copied from https://github.com/zohararad/audio5js
+(function (root, ns, factory) {
+    "use strict";
+
+    if (typeof (module) !== 'undefined' && module.exports) { // CommonJS
+        module.exports = factory(ns, root);
+    } else if (typeof (define) === 'function' && define.amd) { // AMD
+        define(function () {
+            return factory(ns, root);
+        });
+    } else { // <script>
+        root[ns] = factory(ns, root);
+    }
+
+}(window, 'DetectZoom', function (ns, root) {
     /**
      * Use devicePixelRatio if supported by the browser
      * @return {Number}
@@ -68,6 +82,7 @@ var DetectZoom = (function(){
     /**
      * IE 8+: no trick needed!
      * (which didn't even have whole-page zoom).
+     * TODO: Test on IE10 and Windows 8 RT
      * @return {Object}
      * @private
      **/
@@ -75,7 +90,7 @@ var DetectZoom = (function(){
         var zoom = screen.deviceXDPI / screen.logicalXDPI;
         return {
             zoom            : zoom,
-            devicePxPerCssPx: zoom
+            devicePxPerCssPx: zoom + devicePixelRatio()
         };
     };
 
@@ -89,11 +104,11 @@ var DetectZoom = (function(){
      */
     var webkitMobile = function(){
         var deviceWidth = (Math.abs(window.orientation) == 90) ? screen.height : screen.width;
-        var z = deviceWidth / window.innerWidth;
+        var zoom = deviceWidth / window.innerWidth;
         // return immediately; don't round at the end.
         return {
-            zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio()
+            zoom            : zoom,
+            devicePxPerCssPx: zoom * devicePixelRatio()
         };
     };
 
@@ -114,7 +129,6 @@ var DetectZoom = (function(){
      */
     var webkit = function(){
 
-
         var important = function(str){
             return str.replace(/;/g, " !important;");
         };
@@ -133,13 +147,13 @@ var DetectZoom = (function(){
             container.appendChild(div);
 
         document.body.appendChild(container);
-        var z = 1000 / div.clientHeight;
-            z = Math.round(z * 100) / 100;
+        var zoom = 1000 / div.clientHeight;
+            zoom = Math.round(zoom * 100) / 100;
         document.body.removeChild(container);
 
         return{
-            zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio()
+            zoom            : zoom,
+            devicePxPerCssPx: zoom * devicePixelRatio()
         };
     };
 
@@ -152,11 +166,11 @@ var DetectZoom = (function(){
      * @private
      */
     var firefox4 = function(){
-        var z = mediaQueryBinarySearch('min--moz-device-pixel-ratio', '', 0, 10, 20, 0.0001);
-        z = Math.round(z * 100) / 100;
+        var zoom = mediaQueryBinarySearch('min--moz-device-pixel-ratio', '', 0, 10, 20, 0.0001);
+            zoom = Math.round(zoom * 100) / 100;
         return {
-            zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio()
+            zoom            : zoom,
+            devicePxPerCssPx: zoom * devicePixelRatio()
         };
     };
 
@@ -169,11 +183,11 @@ var DetectZoom = (function(){
      * @private
      */
     var opera11 = function(){
-        var z = window.outerWidth / window.innerWidth;
-        z = Math.round(z * 100) / 100;
+        var zoom = window.outerWidth / window.innerWidth;
+            zoom = Math.round(zoom * 100) / 100;
         return {
-            zoom            : z,
-            devicePxPerCssPx: z * devicePixelRatio()
+            zoom            : zoom,
+            devicePxPerCssPx: zoom * devicePixelRatio()
         };
     };
 
@@ -226,4 +240,4 @@ var DetectZoom = (function(){
             return ratios().devicePxPerCssPx;
         }
     });
-}());
+}));
