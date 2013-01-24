@@ -90,7 +90,7 @@
         var zoom = screen.deviceXDPI / screen.logicalXDPI;
         return {
             zoom            : zoom,
-            devicePxPerCssPx: zoom + devicePixelRatio()
+            devicePxPerCssPx: zoom * devicePixelRatio()
         };
     };
 
