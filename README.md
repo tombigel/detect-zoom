@@ -1,30 +1,52 @@
 Javascript Zoom Detector
 ======
-**Forked from https://github.com/yonran/detect-zoom**
+**Forked from https://github.com/yonran/detect-zoom**  
+**As of January 2013 [yornran](https://github.com/yonran) stopped supporting his source, so this is the maintained repository now**
 
-_I removed support for old browsers and cleaned up the original code into a module patern._
-_Supports: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+_
+_Major chnages from the opriginal code:_
+* I removed support for old browsers and cleaned up the original code.
+* Supported browsres: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
+* Added AMD and CommonJS support ("require" and "exports") 
 
-Detect the zoom level of the user's browser using Javascript. This can be used to show higher-resolution `canvas` or `img` when necessary.
+Detect Zoom has two external functions, zoom() and device()
 
-It may not be complete; I need help testing different browsers. Patches welcome.
+**zoom()**      Returns the zoom level of the user's browser using Javascript.  
+**device()**    Returns the device pixel ratio (Read [more about devicePixelRatio](http://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html) at QuirksMode)
+
+This can be used to show higher-resolution `canvas` or `img` when necessary.  
+I'm maitaining it to use DetectZoom in [Wix.com](http://wix.com)'s editor to warn users that their browser is in zoom mode before saving imporant changes to their wabsite.
+
+*It is not complete; I need help testing different browsers. Patches welcome.*
 
 
 Usage
 ------
-    <script src=detect-zoom.js></script>
+```javascript
+    <script src="detect-zoom.js"></script>
     <script>
-      var zoom = DetectZoom.zoom();
-      var device = DetectZoom.device(); // Device pixel ratio
+      var zoom = detectZoom.zoom();
+      var device = detectZoom.device();
 
       console.log(zoom, device);
     </script>
+```
 
-Examples
+AMD Usage
 ------
-[Demo](http://tombigel.github.com/detect-zoom/test-page.html)
+```javascript
+    require(['detect-zoom'], function(detectZoom){
+        var zoom = detectZoom.zoom();
+    });
+```
 
-[Dimensions test](http://tombigel.github.com/detect-zoom/tools/dimensions.html)
+Examples 
+------
+*(Soon, working on my github page now)*
+<!--
+ [Demo](http://tombigel.github.com/detect-zoom/test-page.html) 
+ [Dimensions test](http://tombigel.github.com/detect-zoom/tools/dimensions.html)
+-->
 
+License
 ------
 Detect-zoom is dual-licensed under the WTFPL and MIT license, at the recipient's choice.
