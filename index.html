@@ -115,8 +115,8 @@
     function refresh() {
         var zoom = document.getElementById('zoom');
         var device = document.getElementById('device');
-        zoom.innerText = window.detectZoom.zoom();
-        device.innerText = window.detectZoom.device();
+        zoom.innerText = window.detectZoom.zoom().toFixed(2);
+        device.innerText = window.detectZoom.device().toFixed(2);
     }
     $(document).ready(function () {
         refresh();
