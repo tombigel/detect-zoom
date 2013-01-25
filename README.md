@@ -1,7 +1,7 @@
 Cross Browser Zoom and Pixel Ratio Detector
 ======
 **Forked from https://github.com/yonran/detect-zoom**  
-**As of January 2013 [yornran](https://github.com/yonran) stopped supporting his source, so this is the maintained repository now**
+**As of January 2013 [yornran](https://github.com/yonran) stopped maintaining his source, and is pointing to this repository**
 
 **Major chnages from the opriginal code:**
 * I removed support for old browsers and cleaned up the original code.  
