@@ -15,10 +15,12 @@ Supported browsres: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
 This can be used to show higher-resolution `canvas` or `img` when necessary.  
 I'm maitaining it to use Detect-zoom in [Wix.com](http://wix.com)'s editor to warn users that their browser is in zoom mode before saving imporant changes to their wabsite.
 
-***It is not complete;  
-I need help testing different browsers.  
-Patches welcome.***
+***It is not complete,
+I need help testing different browsers, patches welcome.***
 
+Live Example 
+------
+http://tombigel.github.com/detect-zoom/
 
 Usage
 ------
@@ -39,14 +41,6 @@ AMD Usage
         var zoom = detectZoom.zoom();
     });
 ```
-
-Examples 
-------
-*(Soon, working on my github page now)*
-<!--
- [Demo](http://tombigel.github.com/detect-zoom/test-page.html) 
- [Dimensions test](http://tombigel.github.com/detect-zoom/tools/dimensions.html)
--->
 
 License
 ------
