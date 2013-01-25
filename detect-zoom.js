@@ -16,7 +16,7 @@
         root[ns] = factory(ns, root);
     }
 
-}(window, 'DetectZoom', function (ns, root) {
+}(window, 'detectZoom', function (ns, root) {
     /**
      * Use devicePixelRatio if supported by the browser
      * @return {Number}
