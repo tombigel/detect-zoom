@@ -89,9 +89,11 @@
 
         <h2>Live Example</h2>
 
-        <p>Current zoom level: <span class="example" id="zoom"></span></p>
-
-        <p>Device Pixel Aspect Ratio: <span class="example" id="device"></span></p>
+        <p>
+            Current zoom level: <strong class="example" id="zoom"></strong>
+            <br/>
+            Device Pixel Aspect Ratio: <strong class="example" id="device"></strong>
+        </p>
 
         <h2>License</h2>
 
@@ -106,6 +108,8 @@
         </p>
     </footer>
 </div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script src="javascripts/scale.fix.js"></script>
 <script src="javascripts/detect-zoom.js"></script>
 <script>
@@ -115,9 +119,9 @@
         zoom.innerText = window.detectZoom.zoom();
         device.innerText = window.detectZoom.device();
     }
-    document.addEventListener('load', function () {
+    $(document).ready(function () {
         refresh();
-        window.addEventListener('resize', refresh);
+        $(window).on('resize', refresh);
     });
 </script>
 </body>
