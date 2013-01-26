@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Detect-zoom by tombigel</title>
@@ -11,117 +11,93 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-</head>
-<body>
-<div class="wrapper">
-    <header>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
         <h1>Detect-zoom</h1>
-
         <p>Detect zoom level using Javascript</p>
 
-        <p class="view"><a href="https://github.com/tombigel/detect-zoom">View the Project on GitHub
-            <small>tombigel/detect-zoom</small>
-        </a></p>
+        <p class="view"><a href="https://github.com/tombigel/detect-zoom">View the Project on GitHub <small>tombigel/detect-zoom</small></a></p>
 
 
         <ul>
-            <li><a href="https://github.com/tombigel/detect-zoom/zipball/master">Download <strong>ZIP File</strong></a>
-            </li>
-            <li><a href="https://github.com/tombigel/detect-zoom/tarball/master">Download <strong>TAR Ball</strong></a>
-            </li>
-            <li><a href="https://github.com/tombigel/detect-zoom">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://github.com/tombigel/detect-zoom/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/tombigel/detect-zoom/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/tombigel/detect-zoom">View On <strong>GitHub</strong></a></li>
         </ul>
-    </header>
-    <section>
+      </header>
+      <section>
         <h1>Cross Browser Zoom and Pixel Ratio Detector</h1>
 
-        <p><strong>Forked from <a href="https://github.com/yonran/detect-zoom">https://github.com/yonran/detect-zoom</a></strong><br><strong>As of January 2013
-            <a href="https://github.com/yonran" class="user-mention">@yonran</a> stopped maintaining his source, and is pointing to this repository</strong>
-        </p>
+<hr><p><strong>As of January 2013 <a href="https://github.com/yonran">https://github.com/yonran</a> stopped maintaining his source, and trasfered the repository to me</strong><br><strong>If you are looking to update previous versions note that there were some breaking chnages</strong></p>
 
-        <p><strong>Major changes from the original code:</strong></p>
+<ul>
+<li>
+<strong>Major Changes form the last yonran version:</strong>
 
-        <ul>
-            <li>I removed support for old browsers and cleaned up the original code.<br>
-                Supported browsres: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
-            </li>
-            <li>Added AMD and CommonJS support ("require" and "exports")</li>
-        </ul>
-        <p><strong>Detect-zoom has only two external functions:</strong></p>
+<ul>
+<li>
+<code>DetectZoom</code> object name changed to <code>detectZoom</code>
+</li>
+<li>
+<code>DetectZoom.ratio()</code> is no longer publicly accesible<br>
+</li>
+<li>Supported browsres: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+</li>
+<li><em>IE6, IE7, FF 3.6 and Opera 10.x are no longer supported</em></li>
+<li>Added support to be loaded as an AMD and CommonJS module</li>
+</ul>
+</li>
+</ul><h2>What is this for?</h2>
 
-        <ul>
-            <li>
-                <code>zoom()</code> Returns the zoom level of the user's browser using Javascript.<br>
-            </li>
-            <li>
-                <code>device()</code> Returns the device pixel ratio multiplied by the zoom level (Read
-                <a href="http://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html">more about devicePixelRatio</a> at QuirksMode)
-            </li>
-        </ul>
-        <p>This can be used to show higher-resolution <code>canvas</code> or <code>img</code> when necessary.<br>
-           I'm maitaining it to use Detect-zoom in
-            <a href="http://wix.com">Wix.com</a>'s editor to warn users that their browser is in zoom mode before saving imporant changes to their wabsite.
-        </p>
+<p>Detecting the browser zoom level can be used to show higher-resolution <code>canvas</code> or <code>img</code> when necessary.<br>
+Personally I'm maitaining it to use Detect-zoom in <a href="http://wix.com">Wix.com</a>'s editor to warn users that their browser is in zoom mode before saving imporant changes to their wabsite.</p>
 
-        <p><strong><em>It is not complete,<br>
-                       I need help testing different browsers, patches welcome.</em></strong></p>
+<h2>Live Example </h2>
 
-        <h2>Live Example</h2>
-        <p><em>Change the zoom level of your browser (ctrl/command and +/-) to see the numbers change</em></p>
-        <p>
-            Current zoom level: <strong class="example" id="zoom"></strong>
-            <br />
-            Device Pixel Aspect Ratio: <strong class="example" id="device"></strong>
-        </p>
+<p><a href="http://tombigel.github.com/detect-zoom/">http://tombigel.github.com/detect-zoom/</a></p>
 
-        <h2>Usage</h2>
+<h2>Usage</h2>
 
-        <div class="highlight"><pre>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"detect-zoom.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<p><strong>Detect-zoom has only two public functions:</strong>  </p>
+
+<ul>
+<li>
+<code>zoom()</code>   Returns the zoom level of the user's browser using Javascript.<br>
+</li>
+<li>
+<code>device()</code>   Returns the device pixel ratio multiplied by the zoom level (Read <a href="http://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html">more about devicePixelRatio</a> at QuirksMode)</li>
+</ul><div class="highlight"><pre>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"detect-zoom.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script&gt;</span>
       <span class="kd">var</span> <span class="nx">zoom</span> <span class="o">=</span> <span class="nx">detectZoom</span><span class="p">.</span><span class="nx">zoom</span><span class="p">();</span>
       <span class="kd">var</span> <span class="nx">device</span> <span class="o">=</span> <span class="nx">detectZoom</span><span class="p">.</span><span class="nx">device</span><span class="p">();</span>
 
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">zoom</span><span class="p">,</span> <span class="nx">device</span><span class="p">);</span>
     <span class="nt">&lt;/script&gt;</span>
-</pre>
-        </div>
+</pre></div>
 
-        <h2>AMD Usage</h2>
+<h2>AMD Usage</h2>
 
-        <div class="highlight"><pre>    <span class="nx">require</span><span class="p">([</span><span class="s1">'detect-zoom'</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">detectZoom</span><span class="p">){</span>
+<div class="highlight"><pre>    <span class="nx">require</span><span class="p">([</span><span class="s1">'detect-zoom'</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">detectZoom</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">zoom</span> <span class="o">=</span> <span class="nx">detectZoom</span><span class="p">.</span><span class="nx">zoom</span><span class="p">();</span>
     <span class="p">});</span>
-</pre>
-        </div>
+</pre></div>
 
-        <h2>License</h2>
+<h2>Help Needed</h2>
 
-        <p>Detect-zoom is dual-licensed under the WTFPL and MIT license, at the recipient's choice.</p>
-    </section>
-    <footer>
+<p><strong><em>Detect-zoom is not complete,<br>
+I need help testing different browsers, patches welcome.</em></strong></p>
+
+<h2>License</h2>
+
+<p>Detect-zoom is dual-licensed under the <a href="http://www.wtfpl.net/about/">WTFPL</a> and <a href="http://opensource.org/licenses/MIT">MIT</a> license, at the recipient's choice.</p>
+      </section>
+      <footer>
         <p>This project is maintained by <a href="https://github.com/tombigel">tombigel</a></p>
-
-        <p>
-            <small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a>
-            </small>
-        </p>
-    </footer>
-</div>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script src="javascripts/scale.fix.js"></script>
-<script src="javascripts/detect-zoom.js"></script>
-<script>
-    function refresh() {
-        var zoom = document.getElementById('zoom');
-        var device = document.getElementById('device');
-        zoom.innerText = window.detectZoom.zoom().toFixed(2);
-        device.innerText = window.detectZoom.device().toFixed(2);
-    }
-    $(document).ready(function () {
-        refresh();
-        $(window).on('resize', refresh);
-    });
-</script>
-</body>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
 </html>
