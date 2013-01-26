@@ -12,7 +12,7 @@
         define(function () {
             return factory(ns, root);
         });
-    } else { // <script>
+    } else {
         root[ns] = factory(ns, root);
     }
 
@@ -22,7 +22,7 @@
      * @return {Number}
      */
     var devicePixelRatio = function(){
-        return (window.devicePixelRatio) ? window.devicePixelRatio : 1;
+        return window.devicePixelRatio || 1;
     };
 
 
@@ -81,13 +81,12 @@
 
     /**
      * IE 8+: no trick needed!
-     * (which didn't even have whole-page zoom).
      * TODO: Test on IE10 and Windows 8 RT
      * @return {Object}
      * @private
      **/
     var ie8 = function(){
-        var zoom = screen.deviceXDPI / screen.logicalXDPI;
+        var zoom = Math.round ((screen.deviceXDPI / screen.logicalXDPI) * 100);
         return {
             zoom            : zoom,
             devicePxPerCssPx: zoom * devicePixelRatio()
@@ -105,7 +104,6 @@
     var webkitMobile = function(){
         var deviceWidth = (Math.abs(window.orientation) == 90) ? screen.height : screen.width;
         var zoom = deviceWidth / window.innerWidth;
-        // return immediately; don't round at the end.
         return {
             zoom            : zoom,
             devicePxPerCssPx: zoom * devicePixelRatio()
@@ -113,6 +111,7 @@
     };
 
     /**
+     * Desktop Webkit
      * the trick: an element's clientHeight is in CSS pixels, while you can
      * set its line-height in system pixels using font-size and
      * -webkit-text-size-adjust:none.
@@ -175,6 +174,17 @@
     };
 
     /**
+     * Firefox 18.x
+     * Mozilla added support for devicePixelRatio to Firefox 18,
+     * but it is affected by the zoom level.
+     * To normalize it we need to divide the pixel ratio by zoom level.
+     */
+    var firefox18 = function(){
+        var zoomObj = firefox4();
+        zoomObj.devicePxPerCssPx = devicePixelRatio() / zoomObj.zoom;
+    };
+
+    /**
      * works starting Opera 11.11
      * the trick: outerWidth is the viewport width including scrollbars in
      * system px, while innerWidth is the viewport width including scrollbars
@@ -214,6 +224,11 @@
             ratio = opera11();
 
         //Last one is Firefox
+        //FF 18.x
+        } else if (window.devicePixelRatio){
+            ratio = firefox18();
+
+        //FF 4.0 - 17.x
         } else if (firefox4().zoom > 0.001){
             ratio = firefox4();
 
