@@ -1,29 +1,37 @@
 Cross Browser Zoom and Pixel Ratio Detector
 ======
-**Forked from https://github.com/yonran/detect-zoom**  
-**As of January 2013 @yonran stopped maintaining his source, and is pointing to this repository**
+------
 
-**Major changes from the original code:**
-* I removed support for old browsers and cleaned up the original code.  
-Supported browsres: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
-* Added AMD and CommonJS support ("require" and "exports") 
+**As of January 2013 https://github.com/yonran stopped maintaining his source, and trasfered the repository to me**  
+**If you are looking to update previous versions note that there were some breaking chnages**
 
-**Detect-zoom has only two external functions:**  
-* `zoom()`   Returns the zoom level of the user's browser using Javascript.  
-* `device()`   Returns the device pixel ratio multiplied by the zoom level (Read [more about devicePixelRatio](http://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html) at QuirksMode)
 
-This can be used to show higher-resolution `canvas` or `img` when necessary.  
-I'm maitaining it to use Detect-zoom in [Wix.com](http://wix.com)'s editor to warn users that their browser is in zoom mode before saving imporant changes to their wabsite.
+* **Major Changes form the last yonran version:**
+    * `DetectZoom` object name changed to `detectZoom`
+    * `DetectZoom.ratio()` is no longer publicly accesible    
+    * Supported browsres: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
+    * *IE6, IE7, FF 3.6 and Opera 10.x are no longer supported*
+    * Added support to be loaded as an AMD and CommonJS module
 
-***It is not complete,
-I need help testing different browsers, patches welcome.***
+What is this for?
+------
+
+Detecting the browser zoom level can be used to show higher-resolution `canvas` or `img` when necessary.  
+Personally I'm maitaining it to use Detect-zoom in [Wix.com](http://wix.com)'s editor to warn users that their browser is in zoom mode before saving imporant changes to their wabsite.
+
 
 Live Example 
 ------
+
 http://tombigel.github.com/detect-zoom/
 
 Usage
 ------
+
+**Detect-zoom has only two public functions:**  
+* `zoom()`   Returns the zoom level of the user's browser using Javascript.  
+* `device()`   Returns the device pixel ratio multiplied by the zoom level (Read [more about devicePixelRatio](http://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html) at QuirksMode)
+
 ```html
     <script src="detect-zoom.js"></script>
     <script>
@@ -42,6 +50,14 @@ AMD Usage
     });
 ```
 
+Help Needed
+------
+
+***Detect-zoom is not complete,  
+I need help testing different browsers, patches welcome.***
+
+
 License
 ------
-Detect-zoom is dual-licensed under the WTFPL and MIT license, at the recipient's choice.
+
+Detect-zoom is dual-licensed under the [WTFPL](http://www.wtfpl.net/about/) and [MIT](http://opensource.org/licenses/MIT) license, at the recipient's choice.
