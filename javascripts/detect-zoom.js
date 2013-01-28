@@ -180,10 +180,9 @@
      * To normalize it we need to divide the pixel ratio by zoom level (And we can't bypass the binary search yet...).
      */
     var firefox18 = function () {
-        var zoomObj = firefox4();
         return {
-            zoom: zoomObj.zoom,
-            devicePxPerCssPx: devicePixelRatio() / zoomObj.zoom
+            zoom: firefox4().zoom,
+            devicePxPerCssPx: devicePixelRatio() 
         };
     };
 
