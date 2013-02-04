@@ -5,7 +5,7 @@
  * dual-licensed under the WTFPL and MIT license
  * Maintained by https://github/tombigel
  * Original developer https://github.com/yonran
-*/
+ */
 
 //AMD and CommonJS initialization copied from https://github.com/zohararad/audio5js
 (function (root, ns, factory) {
@@ -22,41 +22,6 @@
     }
 
 }(window, 'detectZoom', function () {
-
-    /**
-     * Generate detection function
-     * @private
-     */
-    var detectFunction = (function () {
-        var func = fallback;
-        //IE8+
-        if (!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)) {
-            func = ie8;
-        }
-        //Mobile Webkit
-        else if ('ontouchstart' in window && typeof document.body.style.webkitTextSizeAdjust === 'string') {
-            func = webkitMobile;
-        }
-        //WebKit
-        else if (typeof document.body.style.webkitTextSizeAdjust === 'string') {
-            func = webkit;
-        }
-        //Opera
-        else if (navigator.userAgent.indexOf('Opera') >= 0) {
-            func = opera11;
-        }
-        //Last one is Firefox
-        //FF 18.x
-        else if (window.devicePixelRatio) {
-            func = firefox18;
-        }
-        //FF 4.0 - 17.x
-        else if (firefox4().zoom > 0.001) {
-            func = firefox4;
-        }
-
-        return func;
-    }());
 
     /**
      * Use devicePixelRatio if supported by the browser
@@ -258,6 +223,42 @@
             }
         }
     };
+
+    /**
+     * Generate detection function
+     * @private
+     */
+    var detectFunction = (function () {
+        var func = fallback;
+        //IE8+
+        if (!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)) {
+            func = ie8;
+        }
+        //Mobile Webkit
+        else if ('ontouchstart' in window && typeof document.body.style.webkitTextSizeAdjust === 'string') {
+            func = webkitMobile;
+        }
+        //WebKit
+        else if (typeof document.body.style.webkitTextSizeAdjust === 'string') {
+            func = webkit;
+        }
+        //Opera
+        else if (navigator.userAgent.indexOf('Opera') >= 0) {
+            func = opera11;
+        }
+        //Last one is Firefox
+        //FF 18.x
+        else if (window.devicePixelRatio) {
+            func = firefox18;
+        }
+        //FF 4.0 - 17.x
+        else if (firefox4().zoom > 0.001) {
+            func = firefox4;
+        }
+
+        return func;
+    }());
+
 
     return ({
 
