@@ -86,7 +86,7 @@
      * @private
      **/
     var ie8 = function () {
-        var zoom = Math.round((screen.deviceXDPI / screen.logicalXDPI) * 100);
+        var zoom = Math.round((screen.deviceXDPI / screen.logicalXDPI) * 100) / 100;
         return {
             zoom: zoom,
             devicePxPerCssPx: zoom * devicePixelRatio()
