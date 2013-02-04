@@ -66,6 +66,13 @@ Changelog
 * Added a fix to Mozilla's (Broken - https://bugzilla.mozilla.org/show_bug.cgi?id=809788) 
 implementation of window.devicePixel starting Firefox 18
 
+2013/2/05
+* Merged a pull request that fixed zoom on IE being returned X100 (thanks @kreymerman)
+* Refactored the code some more, changed some function names
+* Browser dependent main function is created only on initialization (thanks @jsmaker)
+* _Open Issue: Firefox returns `zoom` and `devicePixelRatio` the same. Still looking for a solution here._
+* Started versioning - this is version 1.0.0
+
 Help Needed
 ------
 
