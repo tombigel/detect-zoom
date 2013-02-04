@@ -203,44 +203,57 @@
         };
     };
 
-    var ratios = function () {
-        var ratio = {
+    var fallback = function() {
+        return {
             zoom: 1,
-            devicePxPerCssPx: 1
+            devicePxPerCssPx: 1,
+            fallback: true
         };
+    };
 
+    var getDetectFunction = function(){
         //IE8+
         if (!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)) {
-            ratio = ie8();
+            return ie8;
 
             //Mobile Webkit
         } else if ('ontouchstart' in window && typeof document.body.style.webkitTextSizeAdjust === 'string') {
-            ratio = webkitMobile();
+            return  webkitMobile;
 
             //WebKit
         } else if (typeof document.body.style.webkitTextSizeAdjust === 'string') {
-            ratio = webkit();
+            return  webkit;
 
             //Opera
         } else if (navigator.userAgent.indexOf('Opera') >= 0) {
-            ratio = opera11();
+            return  opera11;
 
             //Last one is Firefox
             //FF 18.x
         } else if (window.devicePixelRatio) {
-            ratio = firefox18();
+            return  firefox18;
 
             //FF 4.0 - 17.x
         } else if (firefox4().zoom > 0.001) {
-            ratio = firefox4();
-
+            return firefox4;
         }
 
-        return ratio;
+        return fallback;
     };
 
-    return ({
+    var ratios = getDetectFunction();
 
+    return {
+        /**
+         * initial state
+         * @return {Object}
+         */
+        initial: ratios(),
+        /**
+         * detect
+         * @return {Object}
+         */
+        detect: ratios,
         /**
          * Ratios.zoom shorthand
          * @return {Number} Zoom level
@@ -256,5 +269,6 @@
         device: function () {
             return ratios().devicePxPerCssPx;
         }
-    });
+    };
+
 }));
