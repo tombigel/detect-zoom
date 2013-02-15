@@ -8,8 +8,8 @@ Cross Browser Zoom and Pixel Ratio Detector
 
 * **Major Changes form the latest yonran version:**
     * `DetectZoom` object name changed to `detectZoom`
-    * `DetectZoom.ratio()` is no longer publicly accesible    
-    * Supported browsres: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
+    * `DetectZoom.ratio()` is no longer publicly accessible
+    * Supported browsers: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
     * *IE6, IE7, FF 3.6 and Opera 10.x are no longer supported*
     * Added support to be loaded as an AMD and CommonJS module
 
@@ -20,8 +20,8 @@ Detecting the browser zoom level and device pixel ratio relative to the zoom lev
 It can be used to show higher-resolution `canvas` or `img` when necessary, 
 to warn users that your site's layout will be broken in their current zoom level, 
 and much more.    
-Personally I'm maitaining it to use Detect-zoom in [Wix.com](http://wix.com)'s editor to warn users 
-that their browser is in zoom mode before saving imporant changes to their wabsite.
+Personally I'm maintaining it to use Detect-zoom in [Wix.com](http://wix.com)'s editor to warn users
+that their browser is in zoom mode before saving important changes to their website.
 
 
 Live Example 
@@ -67,11 +67,15 @@ Changelog
 implementation of window.devicePixel starting Firefox 18
 
 2013/2/05
-* Merged a pull request that fixed zoom on IE being returned X100 (thanks @kreymerman)
+* Merged a pull request that fixed zoom on IE being returned X100 (thanks [@kreymerman](https://github.com/kreymerman))
 * Refactored the code some more, changed some function names
-* Browser dependent main function is created only on initialization (thanks @jsmaker)
+* Browser dependent main function is created only on initialization (thanks [@jsmaker](https://github.com/jsmaker))
 * _Open Issue: Firefox returns `zoom` and `devicePixelRatio` the same. Still looking for a solution here._
 * Started versioning - this is version 1.0.0
+
+2013/2/15
+* Added a fix for IE10 Metro (or whatever MS calls it these days..) by [@stefanvanburen](https://github.com/stefanvanburen)
+* Minor version bump to 1.0.1
 
 Help Needed
 ------

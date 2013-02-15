@@ -1,7 +1,7 @@
 /* Detect-zoom
  * -----------
  * Cross Browser Zoom and Pixel Ratio Detector
- * Version 1.0.0 | Feb 5 2013
+ * Version 1.0.1 | Feb 15 2013
  * dual-licensed under the WTFPL and MIT license
  * Maintained by https://github/tombigel
  * Original developer https://github.com/yonran
@@ -44,13 +44,27 @@
         };
     };
     /**
-     * IE 8+: no trick needed!
+     * IE 8 and 9: no trick needed!
      * TODO: Test on IE10 and Windows 8 RT
      * @return {Object}
      * @private
      **/
     var ie8 = function () {
         var zoom = Math.round((screen.deviceXDPI / screen.logicalXDPI) * 100) / 100;
+        return {
+            zoom: zoom,
+            devicePxPerCssPx: zoom * devicePixelRatio()
+        };
+    };
+
+    /**
+     * For IE10 we need to change our technique again...
+     * thanks https://github.com/stefanvanburen
+     * @return {Object}
+     * @private
+     */
+    var ie10 = function () {
+        var zoom = Math.round((document.documentElement.offsetHeight / window.innerHeight) * 100) / 100;
         return {
             zoom: zoom,
             devicePxPerCssPx: zoom * devicePixelRatio()
@@ -233,6 +247,10 @@
         //IE8+
         if (!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)) {
             func = ie8;
+        }
+        // IE10+ / Touch
+        if (window.navigator.msMaxTouchPoints) {
+            func = ie10;
         }
         //Mobile Webkit
         else if ('ontouchstart' in window && typeof document.body.style.webkitTextSizeAdjust === 'string') {
