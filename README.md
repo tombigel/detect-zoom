@@ -73,6 +73,10 @@ implementation of window.devicePixel starting Firefox 18
 * _Open Issue: Firefox returns `zoom` and `devicePixelRatio` the same. Still looking for a solution here._
 * Started versioning - this is version 1.0.0
 
+2013/2/15
+* Added a fix for IE10 Metro (or whatever MS calls it these days..) by [@stefanvanburen](https://github.com/stefanvanburen)
+* Minor version bump to 1.0.1
+
 Help Needed
 ------
 
