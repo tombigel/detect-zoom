@@ -76,6 +76,7 @@ implementation of window.devicePixel starting Firefox 18
 2013/2/15
 * Added a fix for IE10 Metro (or whatever MS calls it these days..) by [@stefanvanburen](https://github.com/stefanvanburen)
 * Minor version bump to 1.0.1
+* * added minimized version
 
 Help Needed
 ------
