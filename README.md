@@ -2,16 +2,9 @@ Cross Browser Zoom and Pixel Ratio Detector
 ======
 ------
 
-**As of January 2013 https://github.com/yonran stopped maintaining his source, and trasfered the repository to me**  
-**If you are looking to update previous versions note that there were some breaking chnages**
 
+###There is a known issue with Firefox on retina displays (Macbook Pros), where the base zoom level is always 2.0. I'm aware of it and looking for a solution.
 
-* **Major Changes form the latest yonran version:**
-    * `DetectZoom` object name changed to `detectZoom`
-    * `DetectZoom.ratio()` is no longer publicly accessible
-    * Supported browsers: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
-    * *IE6, IE7, FF 3.6 and Opera 10.x are no longer supported*
-    * Added support to be loaded as an AMD and CommonJS module
 
 What is this for?
 ------
@@ -23,6 +16,18 @@ and much more.
 Personally I'm maintaining it to use Detect-zoom in [Wix.com](http://wix.com)'s editor to warn users
 that their browser is in zoom mode before saving important changes to their website.
 
+What happend to @yonran?
+------
+Don't worry, he is well.  
+As of January 2013 [@yonran](https://github.com/yonran) stopped maintaining his source of detect-zoom, and trasfered the repository to me
+If you are looking to update previous versions note that there were some breaking changes
+
+* **Major Changes form the latest yonran version:**
+    * `DetectZoom` object name changed to `detectZoom`
+    * `DetectZoom.ratio()` is no longer publicly accessible
+    * Supported browsers: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
+    * *IE6, IE7, FF 3.6 and Opera 10.x are no longer supported*
+    * Added support to be loaded as an AMD and CommonJS module
 
 Live Example 
 ------
