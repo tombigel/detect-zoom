@@ -19,7 +19,7 @@ that their browser is in zoom mode before saving important changes to their webs
 What happend to @yonran?
 ------
 Don't worry, he is well.  
-As of January 2013 [@yonran](https://github.com/yonran) stopped maintaining his source of detect-zoom, and trasfered the repository to me
+As of January 2013 [@yonran](https://github.com/yonran) stopped maintaining his source of detect-zoom, and trasfered the repository to me.  
 If you are looking to update previous versions note that there were some breaking changes
 
 * **Major Changes form the latest yonran version:**
