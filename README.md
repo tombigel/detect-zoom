@@ -83,6 +83,9 @@ implementation of window.devicePixel starting Firefox 18
 * Minor version bump to 1.0.1
 * Added minimized version
 
+2013/2/25
+* fixed a missing 'else' between ie8 and ie10 detection
+
 Help Needed
 ------
 
