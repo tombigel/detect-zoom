@@ -1,7 +1,7 @@
 /* Detect-zoom
  * -----------
  * Cross Browser Zoom and Pixel Ratio Detector
- * Version 1.0.1 | Feb 15 2013
+ * Version 1.0.2 | Feb 25 2013
  * dual-licensed under the WTFPL and MIT license
  * Maintained by https://github/tombigel
  * Original developer https://github.com/yonran
