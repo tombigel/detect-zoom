@@ -249,7 +249,7 @@
             func = ie8;
         }
         // IE10+ / Touch
-        if (window.navigator.msMaxTouchPoints) {
+        else if (window.navigator.msMaxTouchPoints) {
             func = ie10;
         }
         //Mobile Webkit
