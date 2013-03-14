@@ -91,7 +91,7 @@ Help Needed
 ------
 
 ***Detect-zoom is not complete, many parts of the code are 6 to 12 months old and I'm still reviewing them  
-I need help testing different browsers, finding betrer ways to measure zoom on problematic browsers (ahm.. Firefox.. ahm)  
+I need help testing different browsers, finding better ways to measure zoom on problematic browsers (ahm.. Firefox.. ahm)  
 patches are more than welcome.***
 
 
