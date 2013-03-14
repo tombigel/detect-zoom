@@ -177,7 +177,7 @@
      * @private
      */
     var opera11 = function () {
-        var zoom = window.outerWidth / window.innerWidth;
+        var zoom = window.top.outerWidth / window.top.innerWidth;
         zoom = Math.round(zoom * 100) / 100;
         return {
             zoom: zoom,
