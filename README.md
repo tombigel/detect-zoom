@@ -3,72 +3,72 @@ Cross Browser Zoom and Pixel Ratio Detector
 ------
 
 
-###There is a known issue with Firefox on retina displays (Macbook Pros), where the base zoom level is always 2.0. I'm aware of it and looking for a solution.
+### There is a known issue with Firefox on retina displays (Macbook Pros), where the base zoom level is always 2.0. I'm aware of it and looking for a solution.
 
 
 What is this for?
 ------
 Detecting the browser zoom level and device pixel ratio relative to the zoom level.
 
-It can be used to show higher-resolution `canvas` or `img` when necessary, 
-to warn users that your site's layout will be broken in their current zoom level, 
-and much more.    
+It can be used to show higher-resolution `canvas` or `img` when necessary,
+to warn users that your site's layout will be broken in their current zoom level,
+and much more.
 Personally I'm maintaining it to use Detect-zoom in [Wix.com](http://wix.com)'s editor to warn users
 that their browser is in zoom mode before saving important changes to their website.
 
 What happend to @yonran?
 ------
-Don't worry, he is well.  
-As of January 2013 [@yonran](https://github.com/yonran) stopped maintaining his source of detect-zoom, and trasfered the repository to me.  
+Don't worry, he is well.
+As of January 2013 [@yonran](https://github.com/yonran) stopped maintaining his source of detect-zoom, and transferred the repository to me.
 If you are looking to update previous versions note that there were some breaking changes
 
-* **Major Changes form the latest yonran version:**
+* **Major Changes from the latest yonran version:**
     * `DetectZoom` object name changed to `detectZoom`
     * `DetectZoom.ratio()` is no longer publicly accessible
     * Supported browsers: IE8+, FF4+, modern Webkit, mobile Webkit, Opera 11.1+
     * *IE6, IE7, FF 3.6 and Opera 10.x are no longer supported*
     * Added support to be loaded as an AMD and CommonJS module
 
-Live Example 
+Live Example
 ------
-See the Live Example section in  
+See the Live Example section in
 http://tombigel.github.com/detect-zoom/
 
 Usage
 ------
-**Detect-zoom has only two public functions:**  
-* `zoom()`   Returns the zoom level of the user's browser using Javascript.  
+**Detect-zoom has only two public functions:**
+* `zoom()`   Returns the zoom level of the user's browser using Javascript.
 * `device()`   Returns the device pixel ratio multiplied by the zoom level (Read [more about devicePixelRatio](http://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html) at QuirksMode)
 
 ```html
-    <script src="detect-zoom.js"></script>
-    <script>
-      var zoom = detectZoom.zoom();
-      var device = detectZoom.device();
+<script src="detect-zoom.js"></script>
+<script>
+  var zoom = detectZoom.zoom();
+  var device = detectZoom.device();
 
-      console.log(zoom, device);
-    </script>
+  console.log(zoom, device);
+</script>
 ```
 
 **AMD Usage**
 
 ```javascript
-    require(['detect-zoom'], function(detectZoom){
-        var zoom = detectZoom.zoom();
-    });
+require(['detect-zoom'], function(detectZoom){
+    var zoom = detectZoom.zoom();
+});
 ```
 
 Changelog
 ------
 
-2013/1/26 
+2013/1/26
 * Repository moved here
 * Refactored most of the code
 * Removed support for older browsers
 * Added support for AMD and CommonJS
 
 2013/1/27
-* Added a fix to Mozilla's (Broken - https://bugzilla.mozilla.org/show_bug.cgi?id=809788) 
+* Added a fix to Mozilla's (Broken - https://bugzilla.mozilla.org/show_bug.cgi?id=809788)
 implementation of window.devicePixel starting Firefox 18
 
 2013/2/05
@@ -90,8 +90,8 @@ implementation of window.devicePixel starting Firefox 18
 Help Needed
 ------
 
-***Detect-zoom is not complete, many parts of the code are 6 to 12 months old and I'm still reviewing them  
-I need help testing different browsers, finding better ways to measure zoom on problematic browsers (ahm.. Firefox.. ahm)  
+***Detect-zoom is not complete, many parts of the code are 6 to 12 months old and I'm still reviewing them
+I need help testing different browsers, finding better ways to measure zoom on problematic browsers (ahm.. Firefox.. ahm)
 patches are more than welcome.***
 
 
