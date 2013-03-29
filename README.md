@@ -2,7 +2,6 @@ Cross Browser Zoom and Pixel Ratio Detector
 ======
 ------
 
-
 ### Known issues:
 * In Firefox on retina displays (Macbook Pros), the base zoom level is always 2.0. I'm aware of it and looking for a solution.
 * Some desktop input devices like Wacom tablets add "mobile like" touch events which break the feature detection I'm using and gives false zoom level results. Working on a better way to detect these.
@@ -58,6 +57,12 @@ Usage
 require(['detect-zoom'], function(detectZoom){
     var zoom = detectZoom.zoom();
 });
+```
+
+**Installing with NPM**
+
+```shell
+> npm install detect-zoom
 ```
 
 Changelog
