@@ -55,12 +55,24 @@
             <li>Added support to be loaded as an AMD and CommonJS module.</li>
         </ul>
 
+        <h2>Known Issues</h2>
+
+        <ul>
+            <li>In Firefox on retina displays (Macbook Pros), the base zoom level is always 2.0. I'm aware of it and looking for a solution.</li>
+            <li>Some desktop input devices like Wacom tablets add "mobile like" touch events which break the feature detection I'm using and gives false zoom level results. Working on a better way to detect these.</li>
+            <li>In some multi-monitor enviroments where each monitor has a different 'pixel aspect ratio' windows that span accross both monitors might return false pixelAspectRatio values.</li>
+        </ul>
+
         <h2>What is this for?</h2>
 
-        <p>Detecting the browser zoom level can be used to show higher-resolution <code>canvas</code> or
-            <code>img</code> when necessary.<br>
+        <p>Detecting the browser zoom level and device pixel ratio relative to the zoom level.</p>
+        <p>
+           It can be used to show higher-resolution <code>canvas</code> or <code>img</code> when necessary,
+           to warn users that your site's layout will be broken in their current zoom level,
+           and much more.
+           <br>
            Personally I'm maitaining it to use Detect-zoom in
-            <a href="http://wix.com">Wix.com</a>'s editor to warn users that their browser is in zoom mode before saving imporant changes to their wabsite.
+            <a href="http://wix.com">Wix.com</a>'s editor to warn users that their browser is in zoom mode before saving important changes to their website.
         </p>
 
         <h2>Live Example </h2>
@@ -103,7 +115,10 @@
     <span class="p">});</span>
 </pre>
         </div>
+        <h2>Install with NPM</h2>
 
+                <div class="highlight"><pre> > npm install detect-zoom </pre></div>
+        
         <h2>Help Needed</h2>
 
         <p><strong><em>Detect-zoom is not complete,<br>
