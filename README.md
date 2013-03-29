@@ -61,7 +61,7 @@ require(['detect-zoom'], function(detectZoom){
 
 **Installing with NPM**
 
-```shell
+```bash
 > npm install detect-zoom
 ```
 
