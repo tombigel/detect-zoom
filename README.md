@@ -71,6 +71,7 @@ Changelog
 2013/3/29
 * Added package.json (thanks [@TCampaigne](https://github.com/TCampaigne))
 * Some documentation fixes
+* Added detect-zoom to npm package manager (again, thanks [@TCampaigne](https://github.com/TCampaigne)) 
 
 2013/2/25
 * Fixed a missing 'else' between ie8 and ie10 detection
