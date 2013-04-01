@@ -111,7 +111,7 @@
 
         var div = document.createElement('div');
         div.innerHTML = "1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0";
-        div.setAttribute('style', important('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
+        div.setAttribute('style', important('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
 
         // The container exists so that the div will be laid out in its own flow
         // while not impacting the layout, viewport size, or display of the
@@ -253,11 +253,11 @@
             func = ie10;
         }
         //Mobile Webkit
-        else if ('ontouchstart' in window && typeof document.body.style.webkitTextSizeAdjust === 'string') {
+        else if ('orientation' in window && typeof document.body.style.webkitMarquee === 'string') {
             func = webkitMobile;
         }
         //WebKit
-        else if (typeof document.body.style.webkitTextSizeAdjust === 'string') {
+        else if (typeof document.body.style.webkitMarquee === 'string') {
             func = webkit;
         }
         //Opera
