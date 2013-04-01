@@ -4,7 +4,6 @@ Cross Browser Zoom and Pixel Ratio Detector
 
 ### Known issues:
 * In Firefox on retina displays (Macbook Pros), the base zoom level is always 2.0. I'm aware of it and looking for a solution.
-* Some desktop input devices like Wacom tablets add "mobile like" touch events which break the feature detection I'm using and gives false zoom level results. Working on a better way to detect these.
 * In some multi-monitor enviroments where each monitor has a different 'pixel aspect ratio' windows that span accross both monitors might return false pixelAspectRatio values.
 
 What is this for?
@@ -67,6 +66,11 @@ require(['detect-zoom'], function(detectZoom){
 
 Changelog
 ------
+
+2013/4/01
+* Changed WebKit detection from deprecated webkitTextSizeAdjust to webkitMarquee
+* Changed WebKitMobile detection from unreliable 'ontouchstart' event (can be triggered on desktops too) to 'orientation' property that is hopefully more reliable
+* Minor version bump to 1.0.3
 
 2013/3/29
 * Added package.json (thanks [@TCampaigne](https://github.com/TCampaigne))

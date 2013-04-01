@@ -1,6 +1,6 @@
 {
   "name": "detect-zoom",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Cross Browser Zoom and Pixel Ratio Detector",
   "main": "detect-zoom.js",
   "scripts": {
