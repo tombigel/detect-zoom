@@ -61,12 +61,17 @@ require(['detect-zoom'], function(detectZoom){
 
 **Installing with NPM**
 
-```shell
+```bash
 > npm install detect-zoom
 ```
 
 Changelog
 ------
+
+2013/4/01
+* Changed WebKit detection from deprecated webkitTextSizeAdjust to webkitMarquee
+* Changed WebKitMobile detection from unreliable 'ontouchstart' event (can be triggered on desktops too) to 'orientation' property that is hopefully more reliable
+* Minor version bump to 1.0.4
 
 2013/3/29
 * Added package.json (thanks [@TCampaigne](https://github.com/TCampaigne))
