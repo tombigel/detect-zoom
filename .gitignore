@@ -20,4 +20,4 @@ Thumbs.db
 .idea
 
 # npm
-node-modules
+node_modules
