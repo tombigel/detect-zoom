@@ -5,6 +5,8 @@ Cross Browser Zoom and Pixel Ratio Detector
 ### Known issues:
 * In Firefox on retina displays (Macbook Pros), the base zoom level is always 2.0. I'm aware of it and looking for a solution.
 * In some multi-monitor enviroments where each monitor has a different 'pixel aspect ratio' windows that span accross both monitors might return false pixelAspectRatio values.
+* Fails on WebKit nightlies because WebKit detection depends on webkitTextSizeAdjust wich is depracated on desktops.  
+  _I'm close to a solution_.
 
 What is this for?
 ------
