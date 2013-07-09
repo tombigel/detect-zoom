@@ -14,7 +14,7 @@
     if (typeof (module) !== 'undefined' && module.exports) { // CommonJS
         module.exports = factory(ns, root);
     } else if (typeof (define) === 'function' && define.amd) { // AMD
-        define(function () {
+        define("detect-zoom", function () {
             return factory(ns, root);
         });
     } else {
