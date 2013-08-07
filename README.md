@@ -10,7 +10,7 @@ Last update: Aug 7 2013
 what detect-zoom is here to do:**
 
 #### Firefox
-On *Firefox 18* firefox Mozilla changes the `devicePixelRatio` value on manual zoom (cmd/ctrl +/-), making it impossible
+On *Firefox 18* Mozilla changes the `devicePixelRatio` value on manual zoom (cmd/ctrl +/-), making it impossible
 to know whether the browser is in zoom mode or is it a retina device, ignoring what the word DEVICE represents.  
 I personally believe someone there refuses to admit this is a mistake and revert this decision.
 
