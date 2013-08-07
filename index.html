@@ -55,7 +55,7 @@
             <li>Added support to be loaded as an AMD and CommonJS module.</li>
         </ul>
 
-        <div style="padding:10px; background:#f9f1da; border: 1px solid #9f8e61;">
+        <div style="padding:10px; background:#f9f1da; border: 1px solid #9f8e61; margin-bottom:20px;">
             <h2>READ THIS: Detect-zoom is currently unusable for desktop</h2>
             <p>
                 Last update: Aug 7 2013
@@ -66,7 +66,7 @@
             
             <h4>Firefox</h4>
             
-            <p>On Firefox 18 Mozilla changes the devicePixelRatio value on manual zoom (cmd/ctrl +/-), 
+            <p>On Firefox 18 Mozilla changes the <code>devicePixelRatio</code> value on manual zoom (cmd/ctrl +/-), 
             making it impossible to know whether the browser is in zoom mode or is it a retina device, 
             ignoring what the word DEVICE represents.</p>
             
@@ -74,8 +74,8 @@
             
             <h4>Chrome</h4>
             
-            <p>On Chrome 27 (Meaning WebKit and Blink) webkitTextSizeAdjust was deprecated on desktops versions of the browser. 
-            This was the only bullet proof way to detect zoom in desktop chrome that I am aware of.</p>
+            <p>On Chrome 27 (Meaning WebKit and Blink) <code>webkitTextSizeAdjust</code> was deprecated on desktops versions of the browser. 
+            This was the only bullet proof way to detect zoom in desktop Chrome that I am aware of.</p>
             
             <p>There are couple of other ways, but they don't cover all the bases - 
             one uses SVG but is not working in iFrames, the other uses window.inner/outerWidth and is not working when there 
