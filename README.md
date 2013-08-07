@@ -2,11 +2,25 @@ Cross Browser Zoom and Pixel Ratio Detector
 ======
 ------
 
-### Known issues:
-* **Fails on Chrome 27 and up because WebKit detection depends on `webkitTextSizeAdjust` which is depracated on desktops.  
-  _Still no solution_.**
+### READ THIS: Detect-zoom is currently unusable for desktop
 
-* In Firefox on retina displays (Macbook Pros), the base zoom level is always 2.0. I'm aware of it and looking for a solution.
+Last update: Aug 7 2013
+
+**In the past few months both Mozilla and Google made some changes to their browsers that make it almost impossible to do 
+what detect-zoom is here to do:**
+
+#### Firefox
+On *Firefox 18* firefox Mozilla changes the `devicePixelRatio` value on manual zoom (cmd/ctrl +/-), making it impossible
+to know whether the browser is in zoom mode or is it a retina device, ignoring what the word DEVICE represents.  
+I personally believe someone there refuses to admit this is a mistake and revert this decision.
+
+#### Chrome
+On *Chrome 27* (Meaning WebKit and Blink) `webkitTextSizeAdjust` was deprecated on desktops versions of the browser. 
+This was the only bullet proof way to detect zoom in desktop chrome that I am aware of.  
+There are couple of other ways, but they don't cover all the bases - one uses SVG but is not working in iFrames, the other 
+uses window.inner/outerWidth and is not working when there is a sidebar or the DevTools are open on the side.
+
+### Other Known issues:
 * In some multi-monitor enviroments where each monitor has a different 'pixel aspect ratio' windows that span accross both monitors might return false pixelAspectRatio values.
 
 What is this for?
