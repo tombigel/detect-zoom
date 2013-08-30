@@ -90,42 +90,19 @@
 
     /**
      * Desktop Webkit
-     * the trick: an element's clientHeight is in CSS pixels, while you can
-     * set its line-height in system pixels using font-size and
-     * -webkit-text-size-adjust:none.
-     * device-pixel-ratio: http://www.webkit.org/blog/55/high-dpi-web-sites/
-     *
-     * Previous trick (used before http://trac.webkit.org/changeset/100847):
-     * documentElement.scrollWidth is in CSS pixels, while
-     * document.width was in system pixels. Note that this is the
-     * layout width of the document, which is slightly different from viewport
-     * because document width does not include scrollbars and might be wider
-     * due to big elements.
+     * Sometimes clientWidth, scrollWidth, offsetWidth have a
+     * difference of one pixel. Take the max of them as CSS pixels.
+     * document.width is device pixels.
      * @return {Object}
      * @private
      */
     var webkit = function () {
-        var important = function (str) {
-            return str.replace(/;/g, " !important;");
-        };
-
-        var div = document.createElement('div');
-        div.innerHTML = "1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0";
-        div.setAttribute('style', important('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
-
-        // The container exists so that the div will be laid out in its own flow
-        // while not impacting the layout, viewport size, or display of the
-        // webpage as a whole.
-        // Add !important and relevant CSS rule resets
-        // so that other rules cannot affect the results.
-        var container = document.createElement('div');
-        container.setAttribute('style', important('width:0; height:0; overflow:hidden; visibility:hidden; position: absolute;'));
-        container.appendChild(div);
-
-        document.body.appendChild(container);
-        var zoom = 1000 / div.clientHeight;
+        var cw = document.documentElement.clientWidth,
+            sw = document.documentElement.scrollWidth,
+            ow = document.documentElement.offsetWidth,
+            dw = document.width;
+        var zoom = dw / Math.max(cw, sw, ow);
         zoom = Math.round(zoom * 100) / 100;
-        document.body.removeChild(container);
 
         return{
             zoom: zoom,
