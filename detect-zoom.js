@@ -171,6 +171,7 @@
      * @param maxIter
      * @param epsilon
      * @return {Number}
+     * @private
      */
     var mediaQueryBinarySearch = function (property, unit, a, b, maxIter, epsilon) {
         var matchMedia;
@@ -217,9 +218,10 @@
 
     /**
      * Generate detection function
+     * @return {Function}
      * @private
      */
-    var detectFunction = (function () {
+    var detectFunction = function () {
         var func = fallback;
         //IE8+
         if (!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)) {
@@ -252,6 +254,26 @@
         }
 
         return func;
+    };
+
+    /**
+     * Cached detectFunction to prevent double calls
+     */
+    var cachedDetectFunction;
+
+    /**
+     * Script tag for detect-zoom.js can now be included in head
+     * or before the closing body tag.
+     * @return {Function}
+     * @private
+     */
+    var detect = (function () {
+        return document.body ? detectFunction() : function () {
+            if (typeof cachedDetectFunction === 'undefined') {
+                cachedDetectFunction = detectFunction();
+            }
+            return cachedDetectFunction();
+        }
     }());
 
 
@@ -262,7 +284,7 @@
          * @return {Number} Zoom level
          */
         zoom: function () {
-            return detectFunction().zoom;
+            return detect().zoom;
         },
 
         /**
@@ -270,7 +292,7 @@
          * @return {Number} devicePxPerCssPx level
          */
         device: function () {
-            return detectFunction().devicePxPerCssPx;
+            return detect().devicePxPerCssPx;
         }
     });
 }));
