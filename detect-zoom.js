@@ -90,23 +90,15 @@
 
     /**
      * Desktop Webkit
-     * Sometimes clientWidth, scrollWidth, offsetWidth have a
-     * difference of one pixel. Take the max of them as CSS pixels.
-     * document.width is device pixels.
+     * Difficult to get values you can rely on.
+     * But it should work the way Opera does. 
      * @return {Object}
      * @private
      */
     var webkit = function () {
-        var cw = document.documentElement.clientWidth,
-            sw = document.documentElement.scrollWidth,
-            ow = document.documentElement.offsetWidth,
-            dw = document.width;
-        var zoom = dw / Math.max(cw, sw, ow);
-        zoom = Math.round(zoom * 100) / 100;
-
         return{
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
+            zoom: opera11().zoom,
+            devicePxPerCssPx: opera11().devicePxPerCssPx
         };
     };
 
