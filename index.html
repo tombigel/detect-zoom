@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="detect-zoom.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.zoom').html(window.detectZoom.zoom());
+            $('.device').html(window.detectZoom.device());
+        });
+    </script>
+</head>
+<body>
+    <div class="zoom"></div>
+    <div class="device"></div>
+</body>
+</html>

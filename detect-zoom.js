@@ -29,7 +29,7 @@
      * @private
      */
     var devicePixelRatio = function () {
-        return window.devicePixelRatio || 1;
+        return Math.round(window.devicePixelRatio * 100) / 100 || 1;
     };
 
     /**
@@ -84,52 +84,29 @@
         var zoom = deviceWidth / window.innerWidth;
         return {
             zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
+            devicePxPerCssPx: devicePixelRatio()
         };
     };
 
     /**
      * Desktop Webkit
-     * the trick: an element's clientHeight is in CSS pixels, while you can
-     * set its line-height in system pixels using font-size and
-     * -webkit-text-size-adjust:none.
-     * device-pixel-ratio: http://www.webkit.org/blog/55/high-dpi-web-sites/
-     *
-     * Previous trick (used before http://trac.webkit.org/changeset/100847):
-     * documentElement.scrollWidth is in CSS pixels, while
-     * document.width was in system pixels. Note that this is the
-     * layout width of the document, which is slightly different from viewport
-     * because document width does not include scrollbars and might be wider
-     * due to big elements.
+     * Create SVG, detect current scale ratio, remove SVG.
+     * devicePixelRatio is affected by the zoom level,
+     * so we can't tell, if we are in zoom mode or in a device
+     * with a different pixel ratio
      * @return {Object}
      * @private
      */
     var webkit = function () {
-        var important = function (str) {
-            return str.replace(/;/g, " !important;");
-        };
-
-        var div = document.createElement('div');
-        div.innerHTML = "1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0";
-        div.setAttribute('style', important('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
-
-        // The container exists so that the div will be laid out in its own flow
-        // while not impacting the layout, viewport size, or display of the
-        // webpage as a whole.
-        // Add !important and relevant CSS rule resets
-        // so that other rules cannot affect the results.
-        var container = document.createElement('div');
-        container.setAttribute('style', important('width:0; height:0; overflow:hidden; visibility:hidden; position: absolute;'));
-        container.appendChild(div);
-
-        document.body.appendChild(container);
-        var zoom = 1000 / div.clientHeight;
-        zoom = Math.round(zoom * 100) / 100;
-        document.body.removeChild(container);
-
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('version', '1.1');
+        document.body.appendChild(svg);
+        var zoom = Math.round(svg.currentScale * 100) / 100;
+        document.body.removeChild(svg);
         return{
             zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
+            devicePxPerCssPx: devicePixelRatio()
         };
     };
 
@@ -194,6 +171,7 @@
      * @param maxIter
      * @param epsilon
      * @return {Number}
+     * @private
      */
     var mediaQueryBinarySearch = function (property, unit, a, b, maxIter, epsilon) {
         var matchMedia;
@@ -240,9 +218,10 @@
 
     /**
      * Generate detection function
+     * @return {Function}
      * @private
      */
-    var detectFunction = (function () {
+    var detectFunction = function () {
         var func = fallback;
         //IE8+
         if (!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)) {
@@ -253,11 +232,11 @@
             func = ie10;
         }
         //Mobile Webkit
-        else if ('orientation' in window && typeof document.body.style.webkitMarquee === 'string') {
+        else if ('orientation' in window && typeof document.body.style.webkitAnimation === 'string') {
             func = webkitMobile;
         }
         //WebKit
-        else if (typeof document.body.style.webkitMarquee === 'string') {
+        else if (typeof document.body.style.webkitAnimation === 'string') {
             func = webkit;
         }
         //Opera
@@ -275,6 +254,26 @@
         }
 
         return func;
+    };
+
+    /**
+     * Cached detectFunction to prevent double calls
+     */
+    var cachedDetectFunction;
+
+    /**
+     * Script tag for detect-zoom.js can now be included in head
+     * or before the closing body tag.
+     * @return {Function}
+     * @private
+     */
+    var detect = (function () {
+        return document.body ? detectFunction() : function () {
+            if (typeof cachedDetectFunction === 'undefined') {
+                cachedDetectFunction = detectFunction();
+            }
+            return cachedDetectFunction();
+        }
     }());
 
 
@@ -285,7 +284,7 @@
          * @return {Number} Zoom level
          */
         zoom: function () {
-            return detectFunction().zoom;
+            return detect().zoom;
         },
 
         /**
@@ -293,7 +292,7 @@
          * @return {Number} devicePxPerCssPx level
          */
         device: function () {
-            return detectFunction().devicePxPerCssPx;
+            return detect().devicePxPerCssPx;
         }
     });
 }));
