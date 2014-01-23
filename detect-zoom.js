@@ -29,7 +29,7 @@
      * @private
      */
     var devicePixelRatio = function () {
-        return window.devicePixelRatio || 1;
+        return Math.round(window.devicePixelRatio * 100) / 100 || 1;
     };
 
     /**
@@ -84,21 +84,29 @@
         var zoom = deviceWidth / window.innerWidth;
         return {
             zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
+            devicePxPerCssPx: devicePixelRatio()
         };
     };
 
     /**
      * Desktop Webkit
-     * Difficult to get values you can rely on.
-     * But it should work the way Opera does. 
+     * Create SVG, detect current scale ratio, remove SVG.
+     * devicePixelRatio is affected by the zoom level,
+     * so we can't tell, if we are in zoom mode or in a device
+     * with a different pixel ratio
      * @return {Object}
      * @private
      */
     var webkit = function () {
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('version', '1.1');
+        document.body.appendChild(svg);
+        var zoom = Math.round(svg.currentScale * 100) / 100;
+        document.body.removeChild(svg);
         return{
-            zoom: opera11().zoom,
-            devicePxPerCssPx: opera11().devicePxPerCssPx
+            zoom: zoom,
+            devicePxPerCssPx: devicePixelRatio()
         };
     };
 
@@ -224,11 +232,11 @@
             func = ie10;
         }
         //Mobile Webkit
-        else if ('orientation' in window && typeof document.body.style.webkitMarquee === 'string') {
+        else if ('orientation' in window && typeof document.body.style.webkitAnimation === 'string') {
             func = webkitMobile;
         }
         //WebKit
-        else if (typeof document.body.style.webkitMarquee === 'string') {
+        else if (typeof document.body.style.webkitAnimation === 'string') {
             func = webkit;
         }
         //Opera
