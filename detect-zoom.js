@@ -71,6 +71,33 @@
         };
     };
 
+	/**
+	* For chrome
+	*
+	*/
+    var chrome = function()
+    {
+    	var zoom = Math.round(((window.outerWidth) / window.innerWidth)*100) / 100;
+        return {
+            zoom: zoom,
+            devicePxPerCssPx: zoom * devicePixelRatio()
+        };	    
+    }
+
+	/**
+	* For safari (same as chrome)
+	*
+	*/
+    var safari= function()
+    {
+    	var zoom = Math.round(((window.outerWidth) / window.innerWidth)*100) / 100;
+        return {
+            zoom: zoom,
+            devicePxPerCssPx: zoom * devicePixelRatio()
+        };	    
+    }
+	
+
     /**
      * Mobile WebKit
      * the trick: window.innerWIdth is in CSS pixels, while
@@ -252,6 +279,14 @@
         else if (window.navigator.msMaxTouchPoints) {
             func = ie10;
         }
+		//chrome
+		else if(!!window.chrome && !(!!window.opera || navigator.userAgent.indexOf(' Opera') >= 0)){
+			func = chrome;
+		}
+		//safari
+		else if(Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0){
+			func = safari;
+		}	
         //Mobile Webkit
         else if ('orientation' in window && typeof document.body.style.webkitMarquee === 'string') {
             func = webkitMobile;
