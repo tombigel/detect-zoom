@@ -288,11 +288,11 @@
 			func = safari;
 		}	
         //Mobile Webkit
-        else if ('orientation' in window && typeof document.body.style.webkitMarquee === 'string') {
+        else if ('orientation' in window && 'webkitRequestAnimationFrame' in window) {
             func = webkitMobile;
         }
         //WebKit
-        else if (typeof document.body.style.webkitMarquee === 'string') {
+        else if ('webkitRequestAnimationFrame' in window) {
             func = webkit;
         }
         //Opera
