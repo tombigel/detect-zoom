@@ -1,3 +1,5 @@
+/*global define, module*/
+
 /* Detect-zoom
  * -----------
  * Cross Browser Zoom and Pixel Ratio Detector
@@ -9,12 +11,12 @@
 
 //AMD and CommonJS initialization copied from https://github.com/zohararad/audio5js
 (function (root, ns, factory) {
-    "use strict";
+    'use strict';
 
     if (typeof (module) !== 'undefined' && module.exports) { // CommonJS
         module.exports = factory(ns, root);
     } else if (typeof (define) === 'function' && define.amd) { // AMD
-        define("detect-zoom", function () {
+        define('detect-zoom', function () {
             return factory(ns, root);
         });
     } else {
@@ -22,6 +24,7 @@
     }
 
 }(window, 'detectZoom', function () {
+    'use strict';
 
     /**
      * Use devicePixelRatio if supported by the browser
@@ -30,186 +33,6 @@
      */
     var devicePixelRatio = function () {
         return window.devicePixelRatio || 1;
-    };
-
-    /**
-     * Fallback function to set default values
-     * @return {Object}
-     * @private
-     */
-    var fallback = function () {
-        return {
-            zoom: 1,
-            devicePxPerCssPx: 1
-        };
-    };
-    /**
-     * IE 8 and 9: no trick needed!
-     * TODO: Test on IE10 and Windows 8 RT
-     * @return {Object}
-     * @private
-     **/
-    var ie8 = function () {
-        var zoom = Math.round((screen.deviceXDPI / screen.logicalXDPI) * 100) / 100;
-        return {
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
-        };
-    };
-
-    /**
-     * For IE10 we need to change our technique again...
-     * thanks https://github.com/stefanvanburen
-     * @return {Object}
-     * @private
-     */
-    var ie10 = function () {
-        var zoom = Math.round((document.documentElement.offsetHeight / window.innerHeight) * 100) / 100;
-        return {
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
-        };
-    };
-
-	/**
-	* For chrome
-	*
-	*/
-    var chrome = function()
-    {
-    	var zoom = Math.round(((window.outerWidth) / window.innerWidth)*100) / 100;
-        return {
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
-        };	    
-    }
-
-	/**
-	* For safari (same as chrome)
-	*
-	*/
-    var safari= function()
-    {
-    	var zoom = Math.round(((window.outerWidth) / window.innerWidth)*100) / 100;
-        return {
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
-        };	    
-    }
-	
-
-    /**
-     * Mobile WebKit
-     * the trick: window.innerWIdth is in CSS pixels, while
-     * screen.width and screen.height are in system pixels.
-     * And there are no scrollbars to mess up the measurement.
-     * @return {Object}
-     * @private
-     */
-    var webkitMobile = function () {
-        var deviceWidth = (Math.abs(window.orientation) == 90) ? screen.height : screen.width;
-        var zoom = deviceWidth / window.innerWidth;
-        return {
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
-        };
-    };
-
-    /**
-     * Desktop Webkit
-     * the trick: an element's clientHeight is in CSS pixels, while you can
-     * set its line-height in system pixels using font-size and
-     * -webkit-text-size-adjust:none.
-     * device-pixel-ratio: http://www.webkit.org/blog/55/high-dpi-web-sites/
-     *
-     * Previous trick (used before http://trac.webkit.org/changeset/100847):
-     * documentElement.scrollWidth is in CSS pixels, while
-     * document.width was in system pixels. Note that this is the
-     * layout width of the document, which is slightly different from viewport
-     * because document width does not include scrollbars and might be wider
-     * due to big elements.
-     * @return {Object}
-     * @private
-     */
-    var webkit = function () {
-        var important = function (str) {
-            return str.replace(/;/g, " !important;");
-        };
-
-        var div = document.createElement('div');
-        div.innerHTML = "1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0";
-        div.setAttribute('style', important('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
-
-        // The container exists so that the div will be laid out in its own flow
-        // while not impacting the layout, viewport size, or display of the
-        // webpage as a whole.
-        // Add !important and relevant CSS rule resets
-        // so that other rules cannot affect the results.
-        var container = document.createElement('div');
-        container.setAttribute('style', important('width:0; height:0; overflow:hidden; visibility:hidden; position: absolute;'));
-        container.appendChild(div);
-
-        document.body.appendChild(container);
-        var zoom = 1000 / div.clientHeight;
-        zoom = Math.round(zoom * 100) / 100;
-        document.body.removeChild(container);
-
-        return{
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
-        };
-    };
-
-    /**
-     * no real trick; device-pixel-ratio is the ratio of device dpi / css dpi.
-     * (Note that this is a different interpretation than Webkit's device
-     * pixel ratio, which is the ratio device dpi / system dpi).
-     *
-     * Also, for Mozilla, there is no difference between the zoom factor and the device ratio.
-     *
-     * @return {Object}
-     * @private
-     */
-    var firefox4 = function () {
-        var zoom = mediaQueryBinarySearch('min--moz-device-pixel-ratio', '', 0, 10, 20, 0.0001);
-        zoom = Math.round(zoom * 100) / 100;
-        return {
-            zoom: zoom,
-            devicePxPerCssPx: zoom
-        };
-    };
-
-    /**
-     * Firefox 18.x
-     * Mozilla added support for devicePixelRatio to Firefox 18,
-     * but it is affected by the zoom level, so, like in older
-     * Firefox we can't tell if we are in zoom mode or in a device
-     * with a different pixel ratio
-     * @return {Object}
-     * @private
-     */
-    var firefox18 = function () {
-        return {
-            zoom: firefox4().zoom,
-            devicePxPerCssPx: devicePixelRatio()
-        };
-    };
-
-    /**
-     * works starting Opera 11.11
-     * the trick: outerWidth is the viewport width including scrollbars in
-     * system px, while innerWidth is the viewport width including scrollbars
-     * in CSS px
-     * @return {Object}
-     * @private
-     */
-    var opera11 = function () {
-        var zoom = window.top.outerWidth / window.top.innerWidth;
-        zoom = Math.round(zoom * 100) / 100;
-        return {
-            zoom: zoom,
-            devicePxPerCssPx: zoom * devicePixelRatio()
-        };
     };
 
     /**
@@ -223,6 +46,18 @@
      * @return {Number}
      */
     var mediaQueryBinarySearch = function (property, unit, a, b, maxIter, epsilon) {
+        var binarySearch = function(a, b, maxIter) {
+            var mid = (a + b) / 2;
+            if (maxIter <= 0 || b - a < epsilon) {
+                return mid;
+            }
+            var query = '(' + property + ':' + mid + unit + ')';
+            if (matchMedia(query).matches) {
+                return binarySearch(mid, b, maxIter - 1);
+            } else {
+                return binarySearch(a, mid, maxIter - 1);
+            }
+        };
         var matchMedia;
         var head, style, div;
         if (window.matchMedia) {
@@ -239,7 +74,7 @@
 
             matchMedia = function (query) {
                 style.sheet.insertRule('@media ' + query + '{.mediaQueryBinarySearch ' + '{text-decoration: underline} }', 0);
-                var matched = getComputedStyle(div, null).textDecoration == 'underline';
+                var matched = getComputedStyle(div, null).textDecoration === 'underline';
                 style.sheet.deleteRule(0);
                 return {matches: matched};
             };
@@ -251,18 +86,6 @@
         }
         return ratio;
 
-        function binarySearch(a, b, maxIter) {
-            var mid = (a + b) / 2;
-            if (maxIter <= 0 || b - a < epsilon) {
-                return mid;
-            }
-            var query = "(" + property + ":" + mid + unit + ")";
-            if (matchMedia(query).matches) {
-                return binarySearch(mid, b, maxIter - 1);
-            } else {
-                return binarySearch(a, mid, maxIter - 1);
-            }
-        }
     };
 
     /**
@@ -270,43 +93,155 @@
      * @private
      */
     var detectFunction = (function () {
-        var func = fallback;
-        //IE8+
+        // first the fallback
+        var func = function () {
+            return {
+                zoom: 1,
+                devicePxPerCssPx: 1
+            };
+        };
+
+        // IE 8 and 9: no trick needed!
         if (!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)) {
-            func = ie8;
+            func = function () {
+                var zoom = Math.round((screen.deviceXDPI / screen.logicalXDPI) * 100) / 100;
+                return {
+                    zoom: zoom,
+                    devicePxPerCssPx: zoom * devicePixelRatio()
+                };
+            };
         }
+
         // IE10+ / Touch
+        // thanks https://github.com/stefanvanburen
+        // TODO: Test this function!!!
+        // Chrome returns the full height of the document... not just the viewport for the offsetHeight
+        // and the height of the window (duh) for window.innerHeight.
         else if (window.navigator.msMaxTouchPoints) {
-            func = ie10;
+            func = function () {
+                var zoom = Math.round((document.documentElement.offsetHeight / window.innerHeight) * 100) / 100;
+                return {
+                    zoom: zoom,
+                    devicePxPerCssPx: zoom * devicePixelRatio()
+                };
+            };
         }
-		//chrome
-		else if(!!window.chrome && !(!!window.opera || navigator.userAgent.indexOf(' Opera') >= 0)){
-			func = chrome;
-		}
-		//safari
-		else if(Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0){
-			func = safari;
-		}	
-        //Mobile Webkit
-        else if ('orientation' in window && 'webkitRequestAnimationFrame' in window) {
-            func = webkitMobile;
+
+
+        // Mobile Webkit
+        // the trick: window.innerWIdth is in CSS pixels, while
+        // screen.width and screen.height are in system pixels.
+        // And there are no scrollbars to mess up the measurement.
+        else if ('orientation' in window) {
+            func = function () {
+                var deviceWidth = (Math.abs(window.orientation) === 90) ? screen.height : screen.width;
+                var zoom = deviceWidth / window.innerWidth;
+                return {
+                    zoom: zoom,
+                    devicePxPerCssPx: zoom * devicePixelRatio()
+                };
+            };
         }
-        //WebKit
-        else if ('webkitRequestAnimationFrame' in window) {
-            func = webkit;
+
+        // Desktop Webkit
+        // the trick: an element's clientHeight is in CSS pixels, while you can
+        // set its line-height in system pixels using font-size and
+        // -webkit-text-size-adjust:none.
+        // device-pixel-ratio: http://www.webkit.org/blog/55/high-dpi-web-sites/
+        // 
+        // Previous trick (used before http://trac.webkit.org/changeset/100847):
+        // documentElement.scrollWidth is in CSS pixels, while
+        // document.width was in system pixels. Note that this is the
+        // layout width of the document, which is slightly different from viewport
+        // because document width does not include scrollbars and might be wider
+        // due to big elements.
+        // 
+        else if ('-webkit-text-size-adjust' in document.body.style || 'text-size-adjust' in document.body.style) {
+            func = function () {
+                var important = function (str) {
+                    return str.replace(/;/g, ' !important;');
+                };
+
+                var div = document.createElement('div');
+                div.innerHTML = '1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0';
+                div.setAttribute('style', important('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
+
+                // The container exists so that the div will be laid out in its own flow
+                // while not impacting the layout, viewport size, or display of the
+                // webpage as a whole.
+                // Add !important and relevant CSS rule resets
+                // so that other rules cannot affect the results.
+                var container = document.createElement('div');
+                container.setAttribute('style', important('width:0; height:0; overflow:hidden; visibility:hidden; position: absolute;'));
+                container.appendChild(div);
+
+                document.body.appendChild(container);
+                var zoom = 1000 / div.clientHeight;
+                zoom = Math.round(zoom * 100) / 100;
+                document.body.removeChild(container);
+
+                return{
+                    zoom: zoom,
+                    devicePxPerCssPx: zoom * devicePixelRatio()
+                };
+            };
         }
-        //Opera
-        else if (navigator.userAgent.indexOf('Opera') >= 0) {
-            func = opera11;
-        }
-        //Last one is Firefox
-        //FF 18.x
-        else if (window.devicePixelRatio) {
-            func = firefox18;
-        }
-        //FF 4.0 - 17.x
-        else if (firefox4().zoom > 0.001) {
-            func = firefox4;
+
+        else {
+            // FF 4.0+
+            // This one's a bit more expensive, so we'll do it almost last...
+            //
+            // no real trick; device-pixel-ratio is the ratio of device dpi / css dpi.
+            // (Note that this is a different interpretation than Webkit's device
+            // pixel ratio, which is the ratio device dpi / system dpi).
+            //
+            // Also, for Mozilla, there is no difference between the zoom factor and the device ratio.
+            //
+            // The pixel ratio is present starting in version 18, so if it's there, use it...
+            var ff = function () {
+                var zoom = mediaQueryBinarySearch('min--moz-device-pixel-ratio', '', 0, 10, 20, 0.0001);
+                zoom = Math.round(zoom * 100) / 100;
+                return {
+                    zoom: zoom,
+                    devicePxPerCssPx: window.devicePixelRatio || zoom
+                };
+            };
+
+            if (ff().zoom > 0.001) {
+                func = ff;
+            }
+
+            // Chrome & Safari
+            // This is actually last, as it's the most error prone... Known not to work well with
+            // the web inspector open on the side and generally ends up a few pixels off anyway.
+            else if(window.outerWidth && window.innerWidth){
+                func = function() {
+                    var zoom = Math.round((window.outerWidth / window.innerWidth)*100) / 100;
+                    return {
+                        zoom: zoom,
+                        devicePxPerCssPx: zoom * devicePixelRatio()
+                    };      
+                };
+            }
+
+            // Opera
+            // I'm not sure why this one needs to be different... but it's almost the same,
+            // so we'll stick it down here, as well.
+            //
+            // works starting Opera 11.11
+            // the trick: outerWidth is the viewport width including scrollbars in
+            // system px, while innerWidth is the viewport width including scrollbars
+            // in CSS px
+            else if (window.top.outerWidth && window.top.innerWidth) {
+                func = function () {
+                    var zoom = window.top.outerWidth / window.top.innerWidth;
+                    zoom = Math.round(zoom * 100) / 100;
+                    return {
+                        zoom: zoom,
+                        devicePxPerCssPx: zoom * devicePixelRatio()
+                    };
+                };
+            }
         }
 
         return func;
