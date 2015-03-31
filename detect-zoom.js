@@ -90,7 +90,7 @@
 	*/
     var safari= function()
     {
-    	var zoom = Math.round(((window.outerWidth) / window.innerWidth)*100) / 100;
+    	var zoom = Math.round(((document.documentElement.clientWidth) / window.innerWidth)*100) / 100;
         return {
             zoom: zoom,
             devicePxPerCssPx: zoom * devicePixelRatio()
