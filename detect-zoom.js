@@ -78,7 +78,7 @@
     var chrome = function()
     {
         // When Chrome is maximized is window.outerWidth/window.innerWidth, when not is (window.outerWidth-16)/window.innerWidth
-        var fix = screen.width === document.documentElement.clientWidth ? 0 : 16;
+        var fix = screen.width === window.innerWidth ? 0 : 16;
     	var zoom = Math.round(((window.outerWidth - fix) / window.innerWidth)*100) / 100;
         return {
             zoom: zoom,
