@@ -33,6 +33,21 @@
     };
 
     /**
+     * Use svg:currentScale if supported by the browser
+     * @return {Number}
+     * @private
+     */
+    var svgZoom = function(){
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('version', '1.1');
+        document.body.appendChild(svg);
+        var zoom = svg.currentScale;
+        document.body.removeChild(svg);
+        return Math.round(zoom * 100) / 100;
+    }
+
+    /**
      * Fallback function to set default values
      * @return {Object}
      * @private
@@ -77,9 +92,7 @@
 	*/
     var chrome = function()
     {
-        // When Chrome is maximized is window.outerWidth/window.innerWidth, when not is (window.outerWidth-16)/window.innerWidth
-        var fix = screen.width === window.innerWidth ? 0 : 16;
-    	var zoom = Math.round(((window.outerWidth - fix) / window.innerWidth)*100) / 100;
+    	var zoom = svgZoom();
         return {
             zoom: zoom,
             devicePxPerCssPx: zoom * devicePixelRatio()
@@ -92,7 +105,7 @@
 	*/
     var safari= function()
     {
-    	var zoom = Math.round(((document.documentElement.clientWidth) / window.innerWidth)*100) / 100;
+    	var zoom = svgZoom();
         return {
             zoom: zoom,
             devicePxPerCssPx: zoom * devicePixelRatio()
