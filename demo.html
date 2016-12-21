@@ -1,0 +1,15 @@
+<html>
+<body>
+<script src="./detect-zoom.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+window.onresize = 
+window.onload = function() {
+	document.body.innerHTML  = "zoom: " + detectZoom.zoom();
+	document.body.innerHTML += "<br>";
+	document.body.innerHTML += "devicePxPerCssPx: " + detectZoom.device();
+};
+
+</script>
+</body>
+</html>
