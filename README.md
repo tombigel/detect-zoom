@@ -3,6 +3,7 @@ Cross Browser Zoom and Pixel Ratio Detector
 ------
 
 ### READ THIS: Detect-zoom is currently unusable for desktop
+### READ THIS: Also broken on Chrome/Android.
 
 Last update: Aug 7 2013
 
